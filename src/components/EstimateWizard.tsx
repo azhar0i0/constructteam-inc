@@ -31,7 +31,7 @@ export const EstimateWizard = () => {
     company: defaultCompanyInfo,
     client: defaultClientInfo,
     project: defaultProjectDetails,
-    lineItems: [],
+    sections: [],
     taxRate: 0.08,
   });
 
@@ -60,7 +60,7 @@ export const EstimateWizard = () => {
       case 1:
         return !!(estimateData.project.title && estimateData.project.description);
       case 2:
-        return estimateData.lineItems.length > 0 && estimateData.lineItems.every(item => item.description && item.rate > 0);
+        return estimateData.sections.length > 0 && estimateData.sections.every(section => section.lineItems.length > 0 && section.lineItems.every(item => item.description && item.rate > 0));
       default:
         return true;
     }
@@ -101,9 +101,9 @@ export const EstimateWizard = () => {
       case 2:
         return (
           <LineItemsStep
-            data={estimateData.lineItems}
+            data={estimateData.sections}
             taxRate={estimateData.taxRate}
-            onChange={(lineItems) => setEstimateData({ ...estimateData, lineItems })}
+            onChange={(sections) => setEstimateData({ ...estimateData, sections })}
             onTaxRateChange={(taxRate) => setEstimateData({ ...estimateData, taxRate })}
           />
         );
@@ -242,13 +242,17 @@ export const EstimateWizard = () => {
               </Button>
               <Button
                 onClick={() => {
+                  // Calculate totals for estimate completion
+                  const allLineItems = estimateData.sections.flatMap(section => section.lineItems);
+                  const subtotal = allLineItems.reduce((sum, item) => sum + item.amount, 0);
+                  
                   // Save estimate to localStorage
                   const savedEstimates = JSON.parse(localStorage.getItem('saved-estimates') || '[]');
                   const newEstimate = {
                     ...estimateData,
                     id: estimateData.project.estimateNumber,
                     createdAt: new Date().toISOString(),
-                    total: estimateData.lineItems.reduce((sum, item) => sum + item.amount, 0) * (1 + estimateData.taxRate)
+                    total: subtotal * (1 + estimateData.taxRate)
                   };
                   savedEstimates.push(newEstimate);
                   localStorage.setItem('saved-estimates', JSON.stringify(savedEstimates));

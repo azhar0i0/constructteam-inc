@@ -10,7 +10,8 @@ interface ReviewStepProps {
 }
 
 export const ReviewStep = ({ data }: ReviewStepProps) => {
-  const subtotal = data.lineItems.reduce((sum, item) => sum + item.amount, 0);
+  const allLineItems = data.sections.flatMap(section => section.lineItems);
+  const subtotal = allLineItems.reduce((sum, item) => sum + item.amount, 0);
   const tax = subtotal * data.taxRate;
   const total = subtotal + tax;
 
@@ -124,30 +125,39 @@ export const ReviewStep = ({ data }: ReviewStepProps) => {
             </div>
           </div>
 
-          {/* Line Items Table */}
+          {/* Services Table */}
           <div className="p-8 bg-secondary/10">
             <h2 className="text-xl font-semibold mb-6 text-foreground">Services & Pricing:</h2>
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b-2 border-primary/20">
-                    <th className="text-left py-4 text-foreground font-semibold">Description</th>
-                    <th className="text-center py-4 text-foreground font-semibold w-20">Qty</th>
-                    <th className="text-right py-4 text-foreground font-semibold w-28">Rate</th>
-                    <th className="text-right py-4 text-foreground font-semibold w-32">Amount</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.lineItems.map((item, index) => (
-                    <tr key={item.id} className="border-b border-muted hover:bg-white/50 transition-colors">
-                      <td className="py-4 text-foreground font-medium">{item.description}</td>
-                      <td className="py-4 text-center text-muted-foreground">{item.quantity}</td>
-                      <td className="py-4 text-right text-muted-foreground">${item.rate.toFixed(2)}</td>
-                      <td className="py-4 text-right font-semibold text-foreground">${item.amount.toFixed(2)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <div className="space-y-6">
+              {data.sections.map((section, sectionIndex) => (
+                <div key={section.id} className="bg-white rounded-lg shadow-sm overflow-hidden">
+                  <div className="bg-primary/5 px-6 py-3 border-b">
+                    <h3 className="font-semibold text-lg text-primary">{section.title}</h3>
+                  </div>
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead>
+                        <tr className="border-b border-muted">
+                          <th className="text-left py-3 px-4 text-foreground font-semibold">Description</th>
+                          <th className="text-center py-3 px-4 text-foreground font-semibold w-20">Qty</th>
+                          <th className="text-right py-3 px-4 text-foreground font-semibold w-28">Rate</th>
+                          <th className="text-right py-3 px-4 text-foreground font-semibold w-32">Amount</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {section.lineItems.map((item, index) => (
+                          <tr key={item.id} className="border-b border-muted/50 hover:bg-secondary/20 transition-colors">
+                            <td className="py-3 px-4 text-foreground font-medium">{item.description}</td>
+                            <td className="py-3 px-4 text-center text-muted-foreground">{item.quantity}</td>
+                            <td className="py-3 px-4 text-right text-muted-foreground">${item.rate.toFixed(2)}</td>
+                            <td className="py-3 px-4 text-right font-semibold text-foreground">${item.amount.toFixed(2)}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              ))}
             </div>
 
             {/* Totals Section */}

@@ -34,11 +34,17 @@ export interface LineItem {
   amount: number;
 }
 
+export interface Section {
+  id: string;
+  title: string;
+  lineItems: LineItem[];
+}
+
 export interface EstimateData {
   company: CompanyInfo;
   client: ClientInfo;
   project: ProjectDetails;
-  lineItems: LineItem[];
+  sections: Section[];
   taxRate: number;
 }
 
