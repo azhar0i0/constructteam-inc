@@ -118,59 +118,59 @@ export const EstimateWizard = () => {
     <div className="min-h-screen bg-gradient-to-br from-background via-secondary/30 to-accent/5 transition-all duration-500">
       {/* Header */}
       <div className="bg-white/80 backdrop-blur-lg shadow-lg border-b border-primary/10 transition-all duration-300">
-        <div className="max-w-7xl mx-auto px-4 py-6">
-          <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center gap-3 cursor-pointer group" onClick={() => navigate('/')}>
-                <div className="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
-                  <Sparkles className="w-6 h-6 text-white" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4 sm:mb-6">
+              <div className="flex items-center gap-2 sm:gap-3 cursor-pointer group w-full sm:w-auto" onClick={() => navigate('/')}>
+                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center group-hover:scale-105 transition-transform duration-200 flex-shrink-0">
+                  <Sparkles className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
                 </div>
-                <div>
-                  <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent group-hover:scale-105 transition-transform duration-200">
+                <div className="min-w-0 flex-1">
+                  <h1 className="text-lg sm:text-xl lg:text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent group-hover:scale-105 transition-transform duration-200 truncate">
                     ConstructTeam INC
                   </h1>
-                  <p className="text-sm text-muted-foreground">Professional Construction Estimates</p>
+                  <p className="text-xs sm:text-sm text-muted-foreground hidden sm:block">Professional Construction Estimates</p>
                 </div>
               </div>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto justify-between sm:justify-end">
                 <CompanySettings 
                   companyData={estimateData.company}
                   onSave={(company) => setEstimateData({ ...estimateData, company })}
                 />
-                <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">
-                  Step {currentStep + 1} of {steps.length}
+                <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20 text-xs sm:text-sm whitespace-nowrap">
+                  <span className="hidden sm:inline">Step </span>{currentStep + 1} of {steps.length}
                 </Badge>
               </div>
             </div>
           
-            <div className="space-y-3">
+            <div className="space-y-3 sm:space-y-4">
             <div className="flex items-center justify-between">
-              <span className="text-sm font-medium text-muted-foreground">Progress</span>
-              <span className="text-sm font-medium text-primary">{Math.round(progress)}%</span>
+              <span className="text-xs sm:text-sm font-medium text-muted-foreground">Progress</span>
+              <span className="text-xs sm:text-sm font-medium text-primary">{Math.round(progress)}%</span>
             </div>
-            <Progress value={progress} className="h-2" />
+            <Progress value={progress} className="h-1.5 sm:h-2" />
             
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between gap-2 sm:gap-4">
               {steps.map((step, index) => (
                 <div
                   key={index}
-                  className={`flex flex-col items-center text-center transition-all duration-300 ${
+                  className={`flex flex-col items-center text-center transition-all duration-300 flex-1 sm:flex-none ${
                     index <= currentStep ? 'opacity-100' : 'opacity-40'
                   }`}
                 >
                   <div
-                    className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold transition-all duration-300 ${
+                    className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-semibold transition-all duration-300 ${
                       index < currentStep
                         ? 'bg-primary text-white'
                         : index === currentStep
-                        ? 'bg-primary text-white ring-4 ring-primary/20'
+                        ? 'bg-primary text-white ring-2 sm:ring-4 ring-primary/20'
                         : 'bg-muted text-muted-foreground'
                     }`}
                   >
                     {index + 1}
                   </div>
-                  <div className="mt-2 hidden sm:block">
-                    <p className="text-xs font-medium">{step.title}</p>
-                    <p className="text-xs text-muted-foreground">{step.description}</p>
+                  <div className="mt-1 sm:mt-2">
+                    <p className="text-[10px] sm:text-xs font-medium leading-tight">{step.title}</p>
+                    <p className="text-[9px] sm:text-xs text-muted-foreground hidden sm:block leading-tight">{step.description}</p>
                   </div>
                 </div>
               ))}
@@ -180,28 +180,28 @@ export const EstimateWizard = () => {
       </div>
 
       {/* Content */}
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="mb-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <div className="mb-6 sm:mb-8">
           {renderStep()}
         </div>
 
         {/* Navigation */}
         {currentStep < 3 && (
           <Card className="max-w-4xl mx-auto shadow-lg border-0" style={{ background: 'var(--gradient-card)' }}>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
+            <CardContent className="p-4 sm:p-6">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                 <Button
                   variant="outline"
                   onClick={prevStep}
                   disabled={currentStep === 0}
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 w-full sm:w-auto order-2 sm:order-1"
                 >
                   <ChevronLeft className="w-4 h-4" />
                   Previous
                 </Button>
                 
-                <div className="text-center">
-                  <p className="text-sm text-muted-foreground">
+                <div className="text-center order-1 sm:order-2">
+                  <p className="text-xs sm:text-sm text-muted-foreground">
                     {isStepValid(currentStep) ? (
                       <span className="text-primary font-medium">✓ Step completed</span>
                     ) : (
@@ -213,7 +213,7 @@ export const EstimateWizard = () => {
                 <Button
                   onClick={nextStep}
                   disabled={!isStepValid(currentStep)}
-                  className="flex items-center gap-2 shadow-sm"
+                  className="flex items-center gap-2 shadow-sm w-full sm:w-auto order-3"
                 >
                   {currentStep === steps.length - 2 ? 'Generate Estimate' : 'Next'}
                   <ChevronRight className="w-4 h-4" />
@@ -224,19 +224,19 @@ export const EstimateWizard = () => {
         )}
 
         {currentStep === 3 && (
-          <div className="text-center mt-8">
-            <div className="flex items-center justify-center gap-4">
+          <div className="text-center mt-6 sm:mt-8">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
               <Button
                 variant="outline"
                 onClick={() => navigate('/recent')}
-                className="shadow-lg"
+                className="shadow-lg w-full sm:w-auto"
               >
                 View Recent
               </Button>
               <Button
                 variant="outline"
                 onClick={() => setCurrentStep(0)}
-                className="shadow-lg"
+                className="shadow-lg w-full sm:w-auto"
               >
                 Create New Estimate
               </Button>
@@ -258,7 +258,7 @@ export const EstimateWizard = () => {
                   localStorage.setItem('saved-estimates', JSON.stringify(savedEstimates));
                   setCurrentStep(0);
                 }}
-                className="shadow-lg"
+                className="shadow-lg w-full sm:w-auto"
               >
                 Save & Create New
               </Button>
