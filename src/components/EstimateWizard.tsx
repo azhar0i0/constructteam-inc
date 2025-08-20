@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { ClientInfoStep } from "./steps/ClientInfoStep";
 import { ProjectDetailsStep } from "./steps/ProjectDetailsStep";
 import { LineItemsStep } from "./steps/LineItemsStep";
@@ -24,6 +25,7 @@ const steps = [
 ];
 
 export const EstimateWizard = () => {
+  const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
   const [estimateData, setEstimateData] = useState<EstimateData>({
     company: defaultCompanyInfo,
@@ -223,31 +225,40 @@ export const EstimateWizard = () => {
 
         {currentStep === 3 && (
           <div className="text-center mt-8">
-            <Button
-              variant="outline"
-              onClick={() => setCurrentStep(0)}
-              className="shadow-lg mr-4"
-            >
-              Create New Estimate
-            </Button>
-            <Button
-              onClick={() => {
-                // Save estimate to localStorage
-                const savedEstimates = JSON.parse(localStorage.getItem('saved-estimates') || '[]');
-                const newEstimate = {
-                  ...estimateData,
-                  id: estimateData.project.estimateNumber,
-                  createdAt: new Date().toISOString(),
-                  total: estimateData.lineItems.reduce((sum, item) => sum + item.amount, 0) * (1 + estimateData.taxRate)
-                };
-                savedEstimates.push(newEstimate);
-                localStorage.setItem('saved-estimates', JSON.stringify(savedEstimates));
-                setCurrentStep(0);
-              }}
-              className="shadow-lg"
-            >
-              Save & Create New
-            </Button>
+            <div className="flex items-center justify-center gap-4">
+              <Button
+                variant="outline"
+                onClick={() => navigate('/recent')}
+                className="shadow-lg"
+              >
+                View Recent
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => setCurrentStep(0)}
+                className="shadow-lg"
+              >
+                Create New Estimate
+              </Button>
+              <Button
+                onClick={() => {
+                  // Save estimate to localStorage
+                  const savedEstimates = JSON.parse(localStorage.getItem('saved-estimates') || '[]');
+                  const newEstimate = {
+                    ...estimateData,
+                    id: estimateData.project.estimateNumber,
+                    createdAt: new Date().toISOString(),
+                    total: estimateData.lineItems.reduce((sum, item) => sum + item.amount, 0) * (1 + estimateData.taxRate)
+                  };
+                  savedEstimates.push(newEstimate);
+                  localStorage.setItem('saved-estimates', JSON.stringify(savedEstimates));
+                  setCurrentStep(0);
+                }}
+                className="shadow-lg"
+              >
+                Save & Create New
+              </Button>
+            </div>
           </div>
         )}
       </div>

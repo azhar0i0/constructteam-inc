@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Clock, Search, FileText, ArrowLeft, Copy, Trash2, Eye, Sparkles } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { EstimateData } from "@/types/estimate";
@@ -17,6 +18,7 @@ export const RecentsPage = () => {
   const navigate = useNavigate();
   const [estimates, setEstimates] = useState<SavedEstimate[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedEstimate, setSelectedEstimate] = useState<SavedEstimate | null>(null);
 
   useEffect(() => {
     const saved = localStorage.getItem('saved-estimates');
@@ -163,14 +165,101 @@ export const RecentsPage = () => {
                 </CardHeader>
                 <CardContent className="pt-0">
                   <div className="flex items-center gap-2">
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="flex-1"
+                        >
+                          <Eye className="w-3 h-3 mr-1" />
+                          View
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+                        <DialogHeader>
+                          <DialogTitle>Estimate Details</DialogTitle>
+                        </DialogHeader>
+                        <div className="space-y-6">
+                          {/* Project Info */}
+                          <div className="bg-gradient-to-br from-primary/5 to-accent/5 p-4 rounded-lg">
+                            <h3 className="font-semibold text-lg mb-2">{estimate.project.title}</h3>
+                            <p className="text-muted-foreground mb-2">{estimate.project.description}</p>
+                            <div className="grid grid-cols-2 gap-4 text-sm">
+                              <div>
+                                <span className="font-medium">Estimate #:</span> {estimate.project.estimateNumber}
+                              </div>
+                              <div>
+                                <span className="font-medium">Created:</span> {new Date(estimate.createdAt).toLocaleDateString()}
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Client Info */}
+                          <div>
+                            <h4 className="font-semibold mb-2">Client Information</h4>
+                            <div className="bg-secondary/20 p-4 rounded-lg">
+                              <div className="grid grid-cols-2 gap-4 text-sm">
+                                <div>
+                                  <span className="font-medium">Company:</span> {estimate.client.companyName}
+                                </div>
+                                <div>
+                                  <span className="font-medium">Contact:</span> {estimate.client.contactName}
+                                </div>
+                                <div>
+                                  <span className="font-medium">Email:</span> {estimate.client.email}
+                                </div>
+                                <div>
+                                  <span className="font-medium">Phone:</span> {estimate.client.phone}
+                                </div>
+                              </div>
+                              <div className="mt-2">
+                                <span className="font-medium">Address:</span> {estimate.client.address}
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Line Items */}
+                          <div>
+                            <h4 className="font-semibold mb-2">Services & Pricing</h4>
+                            <div className="space-y-2">
+                              {estimate.lineItems.map((item, index) => (
+                                <div key={index} className="bg-secondary/20 p-3 rounded-lg">
+                                  <div className="flex justify-between items-start">
+                                    <div className="flex-1">
+                                      <p className="font-medium">{item.description}</p>
+                                      <p className="text-sm text-muted-foreground">
+                                        {item.quantity} × {formatCurrency(item.rate)}
+                                      </p>
+                                    </div>
+                                    <div className="text-right">
+                                      <p className="font-semibold">{formatCurrency(item.amount)}</p>
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                            
+                            {/* Total */}
+                            <div className="mt-4 p-4 bg-primary/10 rounded-lg">
+                              <div className="flex justify-between items-center">
+                                <div>
+                                  <p className="text-sm text-muted-foreground">Subtotal: {formatCurrency(estimate.lineItems.reduce((sum, item) => sum + item.amount, 0))}</p>
+                                  <p className="text-sm text-muted-foreground">Tax ({(estimate.taxRate * 100).toFixed(1)}%): {formatCurrency(estimate.lineItems.reduce((sum, item) => sum + item.amount, 0) * estimate.taxRate)}</p>
+                                </div>
+                                <p className="text-xl font-bold text-primary">{formatCurrency(estimate.total)}</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </DialogContent>
+                    </Dialog>
                     <Button
                       size="sm"
                       variant="outline"
                       onClick={() => duplicateEstimate(estimate)}
-                      className="flex-1"
                     >
-                      <Copy className="w-3 h-3 mr-1" />
-                      Duplicate
+                      <Copy className="w-3 h-3" />
                     </Button>
                     <Button
                       size="sm"
