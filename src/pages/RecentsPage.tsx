@@ -23,14 +23,27 @@ export const RecentsPage = () => {
   useEffect(() => {
     const saved = localStorage.getItem('saved-estimates');
     if (saved) {
-      setEstimates(JSON.parse(saved));
+      try {
+        const parsedEstimates = JSON.parse(saved);
+        // Ensure all estimates have the required structure
+        const validEstimates = parsedEstimates.filter((est: any) => 
+          est.id && est.createdAt && est.total !== undefined && 
+          est.sections && Array.isArray(est.sections)
+        );
+        setEstimates(validEstimates);
+      } catch (error) {
+        console.error('Error parsing saved estimates:', error);
+        // Clear corrupted data
+        localStorage.removeItem('saved-estimates');
+        setEstimates([]);
+      }
     }
   }, []);
 
   const filteredEstimates = estimates.filter(
     estimate =>
-      estimate.project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      estimate.client.companyName.toLowerCase().includes(searchTerm.toLowerCase())
+      estimate.project?.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      estimate.client?.companyName?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const deleteEstimate = (id: string) => {
@@ -159,7 +172,7 @@ export const RecentsPage = () => {
                         {formatCurrency(estimate.total)}
                       </div>
                       <Badge variant="outline" className="text-xs">
-                        {estimate.sections.flatMap(s => s.lineItems).length} items
+                        {estimate.sections?.flatMap(s => s.lineItems || []).length || 0} items
                       </Badge>
                     </div>
                   </div>
