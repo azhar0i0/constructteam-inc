@@ -4,11 +4,11 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
-import { CompanyInfoStep } from "./steps/CompanyInfoStep";
 import { ClientInfoStep } from "./steps/ClientInfoStep";
 import { ProjectDetailsStep } from "./steps/ProjectDetailsStep";
 import { LineItemsStep } from "./steps/LineItemsStep";
 import { ReviewStep } from "./steps/ReviewStep";
+import { CompanySettings } from "./CompanySettings";
 import { 
   EstimateData, 
   defaultCompanyInfo, 
@@ -17,7 +17,6 @@ import {
 } from "@/types/estimate";
 
 const steps = [
-  { title: "Company Info", description: "Your business details" },
   { title: "Client Info", description: "Client information" },
   { title: "Project Details", description: "Project description" },
   { title: "Services", description: "Line items & pricing" },
@@ -34,17 +33,31 @@ export const EstimateWizard = () => {
     taxRate: 0.08,
   });
 
+  // Load company info from localStorage on mount
+  useEffect(() => {
+    const savedCompany = localStorage.getItem('company-info');
+    if (savedCompany) {
+      const companyData = JSON.parse(savedCompany);
+      setEstimateData(prev => ({ ...prev, company: companyData }));
+    }
+
+    // Load current estimate if returning from recent page
+    const currentEstimate = localStorage.getItem('current-estimate');
+    if (currentEstimate) {
+      setEstimateData(JSON.parse(currentEstimate));
+      localStorage.removeItem('current-estimate');
+    }
+  }, []);
+
   const progress = ((currentStep + 1) / steps.length) * 100;
 
   const isStepValid = (step: number): boolean => {
     switch (step) {
       case 0:
-        return !!(estimateData.company.name && estimateData.company.email && estimateData.company.phone);
-      case 1:
         return !!(estimateData.client.companyName && estimateData.client.contactName && estimateData.client.email);
-      case 2:
+      case 1:
         return !!(estimateData.project.title && estimateData.project.description);
-      case 3:
+      case 2:
         return estimateData.lineItems.length > 0 && estimateData.lineItems.every(item => item.description && item.rate > 0);
       default:
         return true;
@@ -71,26 +84,19 @@ export const EstimateWizard = () => {
     switch (currentStep) {
       case 0:
         return (
-          <CompanyInfoStep
-            data={estimateData.company}
-            onChange={(company) => setEstimateData({ ...estimateData, company })}
-          />
-        );
-      case 1:
-        return (
           <ClientInfoStep
             data={estimateData.client}
             onChange={(client) => setEstimateData({ ...estimateData, client })}
           />
         );
-      case 2:
+      case 1:
         return (
           <ProjectDetailsStep
             data={estimateData.project}
             onChange={(project) => setEstimateData({ ...estimateData, project })}
           />
         );
-      case 3:
+      case 2:
         return (
           <LineItemsStep
             data={estimateData.lineItems}
@@ -99,7 +105,7 @@ export const EstimateWizard = () => {
             onTaxRateChange={(taxRate) => setEstimateData({ ...estimateData, taxRate })}
           />
         );
-      case 4:
+      case 3:
         return <ReviewStep data={estimateData} />;
       default:
         return null;
@@ -112,23 +118,29 @@ export const EstimateWizard = () => {
       <div className="bg-white/80 backdrop-blur-lg shadow-lg border-b border-primary/10 transition-all duration-300">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center">
-                <Sparkles className="w-6 h-6 text-white" />
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center">
+                  <Sparkles className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                    ConstructTeam INC
+                  </h1>
+                  <p className="text-sm text-muted-foreground">Professional Construction Estimates</p>
+                </div>
               </div>
-              <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                  ConstructTeam INC
-                </h1>
-                <p className="text-sm text-muted-foreground">Professional Construction Estimates</p>
+              <div className="flex items-center gap-3">
+                <CompanySettings 
+                  companyData={estimateData.company}
+                  onSave={(company) => setEstimateData({ ...estimateData, company })}
+                />
+                <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">
+                  Step {currentStep + 1} of {steps.length}
+                </Badge>
               </div>
             </div>
-            <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">
-              Step {currentStep + 1} of {steps.length}
-            </Badge>
-          </div>
           
-          <div className="space-y-3">
+            <div className="space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-sm font-medium text-muted-foreground">Progress</span>
               <span className="text-sm font-medium text-primary">{Math.round(progress)}%</span>
@@ -172,7 +184,7 @@ export const EstimateWizard = () => {
         </div>
 
         {/* Navigation */}
-        {currentStep < 4 && (
+        {currentStep < 3 && (
           <Card className="max-w-4xl mx-auto shadow-lg border-0" style={{ background: 'var(--gradient-card)' }}>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
@@ -209,14 +221,32 @@ export const EstimateWizard = () => {
           </Card>
         )}
 
-        {currentStep === 4 && (
+        {currentStep === 3 && (
           <div className="text-center mt-8">
             <Button
               variant="outline"
               onClick={() => setCurrentStep(0)}
-              className="shadow-lg"
+              className="shadow-lg mr-4"
             >
               Create New Estimate
+            </Button>
+            <Button
+              onClick={() => {
+                // Save estimate to localStorage
+                const savedEstimates = JSON.parse(localStorage.getItem('saved-estimates') || '[]');
+                const newEstimate = {
+                  ...estimateData,
+                  id: estimateData.project.estimateNumber,
+                  createdAt: new Date().toISOString(),
+                  total: estimateData.lineItems.reduce((sum, item) => sum + item.amount, 0) * (1 + estimateData.taxRate)
+                };
+                savedEstimates.push(newEstimate);
+                localStorage.setItem('saved-estimates', JSON.stringify(savedEstimates));
+                setCurrentStep(0);
+              }}
+              className="shadow-lg"
+            >
+              Save & Create New
             </Button>
           </div>
         )}
