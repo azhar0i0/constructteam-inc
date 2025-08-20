@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
+import { ChevronLeft, ChevronRight, Sparkles, CheckCircle, FileText } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { ClientInfoStep } from "./steps/ClientInfoStep";
 import { ProjectDetailsStep } from "./steps/ProjectDetailsStep";
@@ -224,44 +224,63 @@ export const EstimateWizard = () => {
         )}
 
         {currentStep === 3 && (
-          <div className="text-center mt-6 sm:mt-8">
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
-              <Button
-                variant="outline"
-                onClick={() => navigate('/recent')}
-                className="shadow-lg w-full sm:w-auto"
-              >
-                View Recent
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => setCurrentStep(0)}
-                className="shadow-lg w-full sm:w-auto"
-              >
-                Create New Estimate
-              </Button>
-              <Button
-                onClick={() => {
-                  // Calculate totals for estimate completion
-                  const allLineItems = estimateData.sections.flatMap(section => section.lineItems);
-                  const subtotal = allLineItems.reduce((sum, item) => sum + item.amount, 0);
-                  
-                  // Save estimate to localStorage
-                  const savedEstimates = JSON.parse(localStorage.getItem('saved-estimates') || '[]');
-                  const newEstimate = {
-                    ...estimateData,
-                    id: estimateData.project.estimateNumber,
-                    createdAt: new Date().toISOString(),
-                    total: subtotal * (1 + estimateData.taxRate)
-                  };
-                  savedEstimates.push(newEstimate);
-                  localStorage.setItem('saved-estimates', JSON.stringify(savedEstimates));
-                  setCurrentStep(0);
-                }}
-                className="shadow-lg w-full sm:w-auto"
-              >
-                Save & Create New
-              </Button>
+          <div className="text-center mt-6 sm:mt-8 animate-in fade-in duration-500 delay-200">
+            <div className="space-y-4">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center mx-auto shadow-xl animate-in zoom-in duration-500 delay-100 hover-scale">
+                <CheckCircle className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+              </div>
+              <div className="px-4">
+                <h3 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-2">
+                  Success! Your estimate is ready
+                </h3>
+                <p className="text-sm sm:text-base text-muted-foreground mb-6 max-w-md mx-auto">
+                  Choose what you'd like to do next
+                </p>
+              </div>
+              <div className="flex flex-col sm:flex-row lg:flex-row items-center justify-center gap-3 sm:gap-4 max-w-2xl mx-auto px-4 animate-in slide-in-from-bottom-2 duration-500 delay-300">
+                <Button
+                  variant="outline"
+                  onClick={() => navigate('/recent')}
+                  className="shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] w-full sm:w-auto min-w-[140px]"
+                >
+                  <FileText className="w-4 h-4 mr-2" />
+                  <span className="hidden sm:inline">View Recent</span>
+                  <span className="sm:hidden">Recent</span>
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => setCurrentStep(0)}
+                  className="shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] w-full sm:w-auto min-w-[140px]"
+                >
+                  <FileText className="w-4 h-4 mr-2" />
+                  <span className="hidden sm:inline">Create New Estimate</span>
+                  <span className="sm:hidden">New Estimate</span>
+                </Button>
+                <Button
+                  onClick={() => {
+                    // Calculate totals for estimate completion
+                    const allLineItems = estimateData.sections.flatMap(section => section.lineItems);
+                    const subtotal = allLineItems.reduce((sum, item) => sum + item.amount, 0);
+                    
+                    // Save estimate to localStorage
+                    const savedEstimates = JSON.parse(localStorage.getItem('saved-estimates') || '[]');
+                    const newEstimate = {
+                      ...estimateData,
+                      id: estimateData.project.estimateNumber,
+                      createdAt: new Date().toISOString(),
+                      total: subtotal * (1 + estimateData.taxRate)
+                    };
+                    savedEstimates.push(newEstimate);
+                    localStorage.setItem('saved-estimates', JSON.stringify(savedEstimates));
+                    setCurrentStep(0);
+                  }}
+                  className="shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] w-full sm:w-auto min-w-[140px] bg-gradient-to-r from-primary to-accent"
+                >
+                  <CheckCircle className="w-4 h-4 mr-2" />
+                  <span className="hidden sm:inline">Save & Create New</span>
+                  <span className="sm:hidden">Save & New</span>
+                </Button>
+              </div>
             </div>
           </div>
         )}

@@ -26,68 +26,70 @@ export const ReviewStep = ({ data }: ReviewStepProps) => {
   };
 
   return (
-    <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
-      <div className="text-center space-y-4 animate-in fade-in duration-500 delay-150">
-        <div className="w-20 h-20 bg-gradient-to-br from-primary via-primary/90 to-accent rounded-full flex items-center justify-center mx-auto shadow-2xl animate-in zoom-in duration-500 delay-300">
-          <CheckCircle className="w-10 h-10 text-white" />
+    <div className="space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <div className="text-center space-y-4 sm:space-y-6 animate-in fade-in duration-500 delay-150 px-4">
+        <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-primary via-primary/90 to-accent rounded-full flex items-center justify-center mx-auto shadow-2xl animate-in zoom-in duration-500 delay-300 hover-scale">
+          <CheckCircle className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
         </div>
         <div>
-          <h2 className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-2 animate-in slide-in-from-bottom-2 duration-500 delay-200">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-2 sm:mb-3 animate-in slide-in-from-bottom-2 duration-500 delay-200">
             Estimate Complete!
           </h2>
-          <p className="text-muted-foreground text-lg animate-in slide-in-from-bottom-2 duration-500 delay-250">
+          <p className="text-muted-foreground text-sm sm:text-lg max-w-2xl mx-auto animate-in slide-in-from-bottom-2 duration-500 delay-250">
             Review your estimate below and download or send it to your client
           </p>
         </div>
         
-        <div className="flex flex-col sm:flex-row gap-3 justify-center animate-in slide-in-from-bottom-2 duration-500 delay-400">
-          <Button onClick={handleDownload} size="lg" className="shadow-xl transition-all duration-300 hover:shadow-2xl hover:scale-[1.02]">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center max-w-md sm:max-w-none mx-auto animate-in slide-in-from-bottom-2 duration-500 delay-400">
+          <Button onClick={handleDownload} size="lg" className="shadow-xl transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] w-full sm:w-auto">
             <Download className="w-4 h-4 mr-2" />
-            Download PDF
+            <span className="hidden sm:inline">Download PDF</span>
+            <span className="sm:hidden">Download</span>
           </Button>
-          <Button onClick={handleSendEmail} variant="outline" size="lg" className="shadow-xl transition-all duration-300 hover:shadow-2xl hover:scale-[1.02]">
+          <Button onClick={handleSendEmail} variant="outline" size="lg" className="shadow-xl transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] w-full sm:w-auto">
             <Send className="w-4 h-4 mr-2" />
-            Send via Email
+            <span className="hidden sm:inline">Send via Email</span>
+            <span className="sm:hidden">Send Email</span>
           </Button>
         </div>
       </div>
 
-      <Card className="shadow-xl border-0 max-w-4xl mx-auto">
+      <Card className="shadow-xl border-0 max-w-4xl mx-auto animate-in fade-in duration-700 delay-300">
         <CardContent className="p-0">
           {/* Header Section */}
-          <div className="bg-gradient-to-r from-primary to-accent text-white p-8">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-              <div>
-                <h1 className="text-3xl font-bold mb-2">ESTIMATE</h1>
-                <div className="space-y-1 text-white/90">
-                  <p className="text-lg font-semibold">{data.company.name}</p>
-                  <div className="flex items-center gap-2">
-                    <Mail className="w-4 h-4" />
-                    <span>{data.company.email}</span>
+          <div className="bg-gradient-to-r from-primary to-accent text-white p-4 sm:p-6 lg:p-8">
+            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 sm:gap-6">
+              <div className="w-full lg:w-auto">
+                <h1 className="text-2xl sm:text-3xl font-bold mb-2">ESTIMATE</h1>
+                <div className="space-y-1 text-white/90 text-sm sm:text-base">
+                  <p className="text-base sm:text-lg font-semibold">{data.company.name}</p>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <Mail className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
+                    <span className="break-all">{data.company.email}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Phone className="w-4 h-4" />
+                    <Phone className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
                     <span>{data.company.phone}</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <MapPin className="w-4 h-4" />
-                    <span>
+                  <div className="flex items-start gap-2">
+                    <MapPin className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0 mt-0.5" />
+                    <span className="text-xs sm:text-sm">
                       {data.company.address}, {data.company.city}, {data.company.state} {data.company.zipCode}
                     </span>
                   </div>
                 </div>
               </div>
-              <div className="text-right">
-                <Badge variant="secondary" className="bg-white/20 text-white mb-4">
+              <div className="w-full lg:w-auto lg:text-right">
+                <Badge variant="secondary" className="bg-white/20 text-white mb-3 sm:mb-4 text-xs sm:text-sm">
                   {data.project.estimateNumber}
                 </Badge>
-                <div className="space-y-2 text-white/90">
-                  <div className="flex items-center gap-2">
-                    <Calendar className="w-4 h-4" />
+                <div className="space-y-2 text-white/90 text-sm">
+                  <div className="flex items-center gap-2 lg:justify-end">
+                    <Calendar className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
                     <span>Date: {new Date().toLocaleDateString()}</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <FileText className="w-4 h-4" />
+                  <div className="flex items-center gap-2 lg:justify-end">
+                    <FileText className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
                     <span>Valid Until: {new Date(data.project.validUntil).toLocaleDateString()}</span>
                   </div>
                 </div>
