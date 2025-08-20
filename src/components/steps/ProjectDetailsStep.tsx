@@ -76,8 +76,8 @@ export const ProjectDetailsStep = ({ data, onChange }: ProjectDetailsStepProps) 
                 id="estimate-number"
                 placeholder="EST-2024-001"
                 value={data.estimateNumber}
-                onChange={(e) => handleChange('estimateNumber', e.target.value)}
-                className="h-12 shadow-sm border-0 bg-white/80 focus:bg-white transition-all duration-200 focus:shadow-md"
+                readOnly
+                className="h-12 shadow-sm border-0 bg-muted/50 text-muted-foreground cursor-not-allowed transition-all duration-200"
               />
             </div>
             
