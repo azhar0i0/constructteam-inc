@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -54,12 +54,16 @@ export const EstimateWizard = () => {
   const nextStep = () => {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
+      // Scroll to top when changing steps
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
   const prevStep = () => {
     if (currentStep > 0) {
       setCurrentStep(currentStep - 1);
+      // Scroll to top when changing steps
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
@@ -103,9 +107,9 @@ export const EstimateWizard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-secondary/30 to-accent/5">
+    <div className="min-h-screen bg-gradient-to-br from-background via-secondary/30 to-accent/5 transition-all duration-500">
       {/* Header */}
-      <div className="bg-white shadow-sm border-b border-primary/10">
+      <div className="bg-white/80 backdrop-blur-lg shadow-lg border-b border-primary/10 transition-all duration-300">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
@@ -114,9 +118,9 @@ export const EstimateWizard = () => {
               </div>
               <div>
                 <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                  Estimate Studio
+                  ConstructTeam INC
                 </h1>
-                <p className="text-sm text-muted-foreground">Professional estimate generator</p>
+                <p className="text-sm text-muted-foreground">Professional Construction Estimates</p>
               </div>
             </div>
             <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">

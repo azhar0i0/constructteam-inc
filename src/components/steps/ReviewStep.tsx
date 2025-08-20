@@ -25,26 +25,26 @@ export const ReviewStep = ({ data }: ReviewStepProps) => {
   };
 
   return (
-    <div className="space-y-6 animate-in fade-in slide-in-from-right-5 duration-500">
-      <div className="text-center space-y-4">
-        <div className="w-20 h-20 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center mx-auto shadow-lg">
+    <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <div className="text-center space-y-4 animate-in fade-in duration-500 delay-150">
+        <div className="w-20 h-20 bg-gradient-to-br from-primary via-primary/90 to-accent rounded-full flex items-center justify-center mx-auto shadow-2xl animate-in zoom-in duration-500 delay-300">
           <CheckCircle className="w-10 h-10 text-white" />
         </div>
         <div>
-          <h2 className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-2">
+          <h2 className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-2 animate-in slide-in-from-bottom-2 duration-500 delay-200">
             Estimate Complete!
           </h2>
-          <p className="text-muted-foreground text-lg">
+          <p className="text-muted-foreground text-lg animate-in slide-in-from-bottom-2 duration-500 delay-250">
             Review your estimate below and download or send it to your client
           </p>
         </div>
         
-        <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <Button onClick={handleDownload} size="lg" className="shadow-lg">
+        <div className="flex flex-col sm:flex-row gap-3 justify-center animate-in slide-in-from-bottom-2 duration-500 delay-400">
+          <Button onClick={handleDownload} size="lg" className="shadow-xl transition-all duration-300 hover:shadow-2xl hover:scale-[1.02]">
             <Download className="w-4 h-4 mr-2" />
             Download PDF
           </Button>
-          <Button onClick={handleSendEmail} variant="outline" size="lg" className="shadow-lg">
+          <Button onClick={handleSendEmail} variant="outline" size="lg" className="shadow-xl transition-all duration-300 hover:shadow-2xl hover:scale-[1.02]">
             <Send className="w-4 h-4 mr-2" />
             Send via Email
           </Button>
