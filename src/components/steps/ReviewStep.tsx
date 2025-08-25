@@ -4,6 +4,8 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Mail, Phone, MapPin, Calendar, FileText, DollarSign, CheckCircle, Download, Send } from "lucide-react";
 import { TermsConditionsSettings } from "@/components/TermsConditionsSettings";
+import { generateEstimatePDF } from "@/utils/pdfGenerator";
+import { toast } from "sonner";
 import { EstimateData } from "@/types/estimate";
 
 interface ReviewStepProps {
@@ -17,9 +19,15 @@ export const ReviewStep = ({ data, onUpdateTerms }: ReviewStepProps) => {
   const tax = subtotal * data.taxRate;
   const total = subtotal + tax;
 
-  const handleDownload = () => {
-    // Here you would implement PDF generation
-    console.log('Download estimate PDF');
+  const handleDownload = async () => {
+    try {
+      toast("Generating PDF...", { duration: 2000 });
+      await generateEstimatePDF('estimate-content', data);
+      toast("PDF downloaded successfully!", { duration: 3000 });
+    } catch (error) {
+      console.error('Error downloading PDF:', error);
+      toast("Failed to generate PDF. Please try again.", { duration: 3000 });
+    }
   };
 
   const handleSendEmail = () => {
@@ -60,7 +68,7 @@ export const ReviewStep = ({ data, onUpdateTerms }: ReviewStepProps) => {
         </div>
       </div>
 
-      <Card className="shadow-xl border-0 max-w-4xl mx-auto animate-in fade-in duration-700 delay-300">
+      <Card className="shadow-xl border-0 max-w-4xl mx-auto animate-in fade-in duration-700 delay-300" id="estimate-content">
         <CardContent className="p-0">
           {/* Header Section */}
           <div className="bg-gradient-to-r from-primary to-accent text-white p-4 sm:p-6 lg:p-8">
