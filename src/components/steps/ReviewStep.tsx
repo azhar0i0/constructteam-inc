@@ -22,7 +22,7 @@ export const ReviewStep = ({ data, onUpdateTerms }: ReviewStepProps) => {
   const handleDownload = async () => {
     try {
       toast("Generating PDF...", { duration: 2000 });
-      await generateEstimatePDF('estimate-content', data);
+      await generateEstimatePDF(data);
       toast("PDF downloaded successfully!", { duration: 3000 });
     } catch (error) {
       console.error('Error downloading PDF:', error);
