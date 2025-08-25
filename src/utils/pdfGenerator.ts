@@ -21,27 +21,27 @@ export const generateEstimatePDF = async (elementId: string, estimateData: Estim
 
     const imgData = canvas.toDataURL('image/png');
     
-    // Calculate dimensions
-    const imgWidth = 210; // A4 width in mm
-    const pageHeight = 295; // A4 height in mm
-    const imgHeight = (canvas.height * imgWidth) / canvas.width;
-    let heightLeft = imgHeight;
+    // Calculate dimensions for single page PDF
+    const maxWidth = 210; // A4 width in mm
+    const maxHeight = 295; // A4 height in mm
+    
+    // Calculate scaling to fit everything on one page
+    const widthRatio = maxWidth / (canvas.width * 0.264583); // Convert pixels to mm
+    const heightRatio = maxHeight / (canvas.height * 0.264583); // Convert pixels to mm
+    const scale = Math.min(widthRatio, heightRatio); // Use smaller ratio to ensure it fits
+    
+    const imgWidth = (canvas.width * 0.264583) * scale;
+    const imgHeight = (canvas.height * 0.264583) * scale;
+    
+    // Center the image on the page
+    const xOffset = (maxWidth - imgWidth) / 2;
+    const yOffset = (maxHeight - imgHeight) / 2;
 
     // Create PDF
     const pdf = new jsPDF('p', 'mm', 'a4');
-    let position = 0;
-
-    // Add first page
-    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-    heightLeft -= pageHeight;
-
-    // Add additional pages if content is longer than one page
-    while (heightLeft >= 0) {
-      position = heightLeft - imgHeight;
-      pdf.addPage();
-      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
-    }
+    
+    // Add single page with all content scaled to fit
+    pdf.addImage(imgData, 'PNG', xOffset, yOffset, imgWidth, imgHeight);
 
     // Generate filename
     const fileName = `Estimate_${estimateData.project.estimateNumber}_${estimateData.client.companyName.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`;
