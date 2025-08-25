@@ -10,11 +10,14 @@ import { ProjectDetailsStep } from "./steps/ProjectDetailsStep";
 import { LineItemsStep } from "./steps/LineItemsStep";
 import { ReviewStep } from "./steps/ReviewStep";
 import { CompanySettings } from "./CompanySettings";
+import { PaymentInfoSettings } from "./PaymentInfoSettings";
 import { 
   EstimateData, 
   defaultCompanyInfo, 
   defaultClientInfo, 
-  defaultProjectDetails 
+  defaultProjectDetails,
+  defaultPaymentInfo,
+  defaultTermsConditions
 } from "@/types/estimate";
 
 const steps = [
@@ -33,14 +36,28 @@ export const EstimateWizard = () => {
     project: defaultProjectDetails,
     sections: [],
     taxRate: 0.08,
+    paymentInfo: defaultPaymentInfo,
+    termsConditions: defaultTermsConditions,
   });
 
-  // Load company info from localStorage on mount
+  // Load saved data from localStorage on mount
   useEffect(() => {
     const savedCompany = localStorage.getItem('company-info');
     if (savedCompany) {
       const companyData = JSON.parse(savedCompany);
       setEstimateData(prev => ({ ...prev, company: companyData }));
+    }
+
+    const savedPayment = localStorage.getItem('payment-info');
+    if (savedPayment) {
+      const paymentData = JSON.parse(savedPayment);
+      setEstimateData(prev => ({ ...prev, paymentInfo: paymentData }));
+    }
+
+    const savedTerms = localStorage.getItem('terms-conditions');
+    if (savedTerms) {
+      const termsData = JSON.parse(savedTerms);
+      setEstimateData(prev => ({ ...prev, termsConditions: termsData }));
     }
 
     // Load current estimate if returning from recent page
@@ -108,7 +125,7 @@ export const EstimateWizard = () => {
           />
         );
       case 3:
-        return <ReviewStep data={estimateData} />;
+        return <ReviewStep data={estimateData} onUpdateTerms={(termsConditions) => setEstimateData({ ...estimateData, termsConditions })} />;
       default:
         return null;
     }
@@ -132,10 +149,16 @@ export const EstimateWizard = () => {
                 </div>
               </div>
               <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto justify-between sm:justify-end">
-                <CompanySettings 
-                  companyData={estimateData.company}
-                  onSave={(company) => setEstimateData({ ...estimateData, company })}
-                />
+                <div className="flex items-center gap-2">
+                  <CompanySettings 
+                    companyData={estimateData.company}
+                    onSave={(company) => setEstimateData({ ...estimateData, company })}
+                  />
+                  <PaymentInfoSettings
+                    paymentData={estimateData.paymentInfo}
+                    onSave={(paymentInfo) => setEstimateData({ ...estimateData, paymentInfo })}
+                  />
+                </div>
                 <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20 text-xs sm:text-sm whitespace-nowrap">
                   <span className="hidden sm:inline">Step </span>{currentStep + 1} of {steps.length}
                 </Badge>

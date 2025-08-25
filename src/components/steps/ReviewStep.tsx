@@ -3,13 +3,15 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Mail, Phone, MapPin, Calendar, FileText, DollarSign, CheckCircle, Download, Send } from "lucide-react";
+import { TermsConditionsSettings } from "@/components/TermsConditionsSettings";
 import { EstimateData } from "@/types/estimate";
 
 interface ReviewStepProps {
   data: EstimateData;
+  onUpdateTerms?: (terms: any) => void;
 }
 
-export const ReviewStep = ({ data }: ReviewStepProps) => {
+export const ReviewStep = ({ data, onUpdateTerms }: ReviewStepProps) => {
   const allLineItems = data.sections.flatMap(section => section.lineItems);
   const subtotal = allLineItems.reduce((sum, item) => sum + item.amount, 0);
   const tax = subtotal * data.taxRate;
@@ -51,6 +53,10 @@ export const ReviewStep = ({ data }: ReviewStepProps) => {
             <span className="hidden sm:inline">Send via Email</span>
             <span className="sm:hidden">Send Email</span>
           </Button>
+          <TermsConditionsSettings
+            termsData={data.termsConditions}
+            onSave={onUpdateTerms || (() => {})}
+          />
         </div>
       </div>
 
@@ -187,32 +193,70 @@ export const ReviewStep = ({ data }: ReviewStepProps) => {
             </div>
           </div>
 
-          {/* Terms & Footer */}
+          {/* Payment & Terms Section */}
           <div className="p-8 border-t bg-secondary/30">
-            <div className="grid md:grid-cols-2 gap-8">
+            <div className="grid lg:grid-cols-2 gap-8">
+              <div>
+                <h3 className="font-semibold mb-3 text-foreground">Payment Information:</h3>
+                <div className="bg-white p-4 rounded-lg shadow-sm">
+                  <div className="space-y-2">
+                    <div>
+                      <span className="text-sm font-medium text-foreground">Accepted Methods:</span>
+                      <p className="text-sm text-muted-foreground">
+                        {data.paymentInfo.acceptedMethods.join(', ') || 'Bank Transfer, Check'}
+                      </p>
+                    </div>
+                    {data.paymentInfo.bankName && (
+                      <div>
+                        <span className="text-sm font-medium text-foreground">Bank:</span>
+                        <p className="text-sm text-muted-foreground">{data.paymentInfo.bankName}</p>
+                      </div>
+                    )}
+                    {data.paymentInfo.accountName && (
+                      <div>
+                        <span className="text-sm font-medium text-foreground">Account Name:</span>
+                        <p className="text-sm text-muted-foreground">{data.paymentInfo.accountName}</p>
+                      </div>
+                    )}
+                    {data.paymentInfo.paypalEmail && (
+                      <div>
+                        <span className="text-sm font-medium text-foreground">PayPal:</span>
+                        <p className="text-sm text-muted-foreground">{data.paymentInfo.paypalEmail}</p>
+                      </div>
+                    )}
+                    {data.paymentInfo.notes && (
+                      <div>
+                        <span className="text-sm font-medium text-foreground">Notes:</span>
+                        <p className="text-sm text-muted-foreground">{data.paymentInfo.notes}</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+              
               <div>
                 <h3 className="font-semibold mb-3 text-foreground">Terms & Conditions:</h3>
-                <ul className="text-sm text-muted-foreground space-y-1">
-                  <li>• Estimate valid for 30 days</li>
-                  <li>• 50% deposit required to begin work</li>
-                  <li>• Final payment due upon project completion</li>
-                  <li>• Additional changes may incur extra charges</li>
-                </ul>
-              </div>
-              <div>
-                <h3 className="font-semibold mb-3 text-foreground">Project Timeline:</h3>
-                <p className="text-sm text-muted-foreground">
-                  Estimated completion time will be discussed upon project acceptance. 
-                  Timeline may vary based on client feedback and content delivery.
-                </p>
+                <div className="bg-white p-4 rounded-lg shadow-sm">
+                  <ul className="text-sm text-muted-foreground space-y-1">
+                    <li>• Estimate valid for {data.termsConditions.validityPeriod}</li>
+                    <li>• {data.termsConditions.depositRequired} deposit required to begin work</li>
+                    <li>• {data.termsConditions.paymentTerms}</li>
+                    <li>• {data.termsConditions.additionalCharges}</li>
+                  </ul>
+                  
+                  <div className="mt-3">
+                    <span className="text-sm font-medium text-foreground">Project Timeline:</span>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      {data.termsConditions.timeline}
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
             
             <div className="mt-6 p-4 bg-accent/10 rounded-lg border border-accent/20">
               <p className="text-sm text-muted-foreground">
-                <strong>Note:</strong> This estimate includes all specified services. Any additional features 
-                or changes requested during the project will be quoted separately. Please review all details 
-                carefully and contact us with any questions.
+                <strong>Note:</strong> {data.termsConditions.notes}
               </p>
             </div>
           </div>
