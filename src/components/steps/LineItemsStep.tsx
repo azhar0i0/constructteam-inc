@@ -276,7 +276,7 @@ export const LineItemsStep = ({ data, taxRate, onChange, onTaxRateChange }: Line
             </div>
           )}
           
-          <Button onClick={addSection} className="w-full transition-all duration-300 hover:shadow-lg hover:scale-[1.02]" variant="outline">
+          <Button onClick={addSection} className="w-full bg-gradient-to-r from-primary to-accent text-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] animate-pulse">
             <FolderPlus className="w-4 h-4 mr-2" />
             Add Section
           </Button>

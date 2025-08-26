@@ -271,15 +271,6 @@ export const EstimateWizard = () => {
                   <span className="sm:hidden">Recent</span>
                 </Button>
                 <Button
-                  variant="outline"
-                  onClick={() => setCurrentStep(0)}
-                  className="shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] w-full sm:w-auto min-w-[140px]"
-                >
-                  <FileText className="w-4 h-4 mr-2" />
-                  <span className="hidden sm:inline">Create New Estimate</span>
-                  <span className="sm:hidden">New Estimate</span>
-                </Button>
-                <Button
                   onClick={() => {
                     // Calculate totals for estimate completion
                     const allLineItems = estimateData.sections.flatMap(section => section.lineItems);

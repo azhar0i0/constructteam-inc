@@ -56,11 +56,6 @@ export const ReviewStep = ({ data, onUpdateTerms }: ReviewStepProps) => {
             <span className="hidden sm:inline">Download PDF</span>
             <span className="sm:hidden">Download</span>
           </Button>
-          <Button onClick={handleSendEmail} variant="outline" size="lg" className="shadow-xl transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] w-full sm:w-auto">
-            <Send className="w-4 h-4 mr-2" />
-            <span className="hidden sm:inline">Send via Email</span>
-            <span className="sm:hidden">Send Email</span>
-          </Button>
           <TermsConditionsSettings
             termsData={data.termsConditions}
             onSave={onUpdateTerms || (() => {})}
