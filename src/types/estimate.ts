@@ -48,6 +48,7 @@ export interface ProjectDetails {
 
 export interface LineItem {
   id: string;
+  name: string;
   description: string;
   quantity: number;
   rate: number;

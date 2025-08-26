@@ -2,19 +2,20 @@ import { useState, useEffect } from 'react';
 
 export interface PredefinedService {
   id: string;
+  name: string;
   description: string;
   rate: number;
 }
 
 const defaultServices: PredefinedService[] = [
-  { id: '1', description: "Website Design & Development", rate: 2500 },
-  { id: '2', description: "Logo Design & Branding", rate: 800 },
-  { id: '3', description: "Content Management System", rate: 1200 },
-  { id: '4', description: "SEO Optimization", rate: 600 },
-  { id: '5', description: "Mobile Responsive Design", rate: 400 },
-  { id: '6', description: "E-commerce Integration", rate: 1500 },
-  { id: '7', description: "Custom WordPress Theme", rate: 1000 },
-  { id: '8', description: "Social Media Integration", rate: 300 },
+  { id: '1', name: 'Website Design & Development', description: 'Custom website design and development services', rate: 2500 },
+  { id: '2', name: 'Logo Design & Branding', description: 'Professional logo design and brand identity', rate: 800 },
+  { id: '3', name: 'Content Management System', description: 'CMS setup and configuration for easy content management', rate: 1200 },
+  { id: '4', name: 'SEO Optimization', description: 'Search engine optimization to improve website visibility', rate: 600 },
+  { id: '5', name: 'Mobile Responsive Design', description: 'Responsive design optimization for mobile devices', rate: 400 },
+  { id: '6', name: 'E-commerce Integration', description: 'Online store setup and payment gateway integration', rate: 1500 },
+  { id: '7', name: 'Custom WordPress Theme', description: 'Custom WordPress theme development and customization', rate: 1000 },
+  { id: '8', name: 'Social Media Integration', description: 'Social media platform integration and setup', rate: 300 },
 ];
 
 const STORAGE_KEY = 'constructteam-predefined-services';

@@ -21,7 +21,7 @@ export const LineItemsStep = ({ data, taxRate, onChange, onTaxRateChange }: Line
   const { services, addService, updateService, deleteService, resetToDefaults } = usePredefinedServices();
   const [editingService, setEditingService] = useState<PredefinedService | null>(null);
   const [isAddingNew, setIsAddingNew] = useState(false);
-  const [newServiceForm, setNewServiceForm] = useState({ description: '', rate: 0 });
+  const [newServiceForm, setNewServiceForm] = useState({ name: '', description: '', rate: 0 });
 
   const addSection = () => {
     const newSection: Section = {
@@ -46,6 +46,7 @@ export const LineItemsStep = ({ data, taxRate, onChange, onTaxRateChange }: Line
   const addLineItemToSection = (sectionId: string) => {
     const newItem: LineItem = {
       id: `item-${Date.now()}`,
+      name: '',
       description: '',
       quantity: 1,
       rate: 0,
@@ -96,6 +97,7 @@ export const LineItemsStep = ({ data, taxRate, onChange, onTaxRateChange }: Line
   const addPredefinedServiceToSection = (sectionId: string, service: PredefinedService) => {
     const newItem: LineItem = {
       id: `item-${Date.now()}`,
+      name: service.name,
       description: service.description,
       quantity: 1,
       rate: service.rate,
@@ -116,6 +118,7 @@ export const LineItemsStep = ({ data, taxRate, onChange, onTaxRateChange }: Line
   const handleSaveEdit = () => {
     if (editingService) {
       updateService(editingService.id, {
+        name: editingService.name,
         description: editingService.description,
         rate: editingService.rate,
       });
@@ -124,9 +127,9 @@ export const LineItemsStep = ({ data, taxRate, onChange, onTaxRateChange }: Line
   };
 
   const handleAddNewService = () => {
-    if (newServiceForm.description && newServiceForm.rate > 0) {
+    if (newServiceForm.name && newServiceForm.description && newServiceForm.rate > 0) {
       addService(newServiceForm);
-      setNewServiceForm({ description: '', rate: 0 });
+      setNewServiceForm({ name: '', description: '', rate: 0 });
       setIsAddingNew(false);
     }
   };
@@ -208,7 +211,16 @@ export const LineItemsStep = ({ data, taxRate, onChange, onTaxRateChange }: Line
                             </div>
                             
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3">
-                              <div className="sm:col-span-2 lg:col-span-6">
+                              <div className="sm:col-span-2 lg:col-span-3">
+                                <Label className="text-sm font-medium">Service Name</Label>
+                                <Input
+                                  placeholder="Service name"
+                                  value={item.name}
+                                  onChange={(e) => updateLineItem(section.id, item.id, 'name', e.target.value)}
+                                  className="mt-1 h-10 border-0 bg-white shadow-sm"
+                                />
+                              </div>
+                              <div className="sm:col-span-2 lg:col-span-3">
                                 <Label className="text-sm font-medium">Description</Label>
                                 <Input
                                   placeholder="Service description"
@@ -307,11 +319,12 @@ export const LineItemsStep = ({ data, taxRate, onChange, onTaxRateChange }: Line
                   className="space-y-2 p-2 rounded-lg bg-white/40 hover:bg-white/60 transition-all duration-200 animate-in slide-in-from-right-2"
                   style={{ animationDelay: `${index * 50}ms` }}
                 >
-                  <div className="flex items-center justify-between">
-                    <div className="flex-1 min-w-0">
-                      <div className="font-medium text-xs truncate">{service.description}</div>
-                      <div className="text-xs text-muted-foreground">${service.rate}</div>
-                    </div>
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1 min-w-0">
+                        <div className="font-medium text-xs truncate">{service.name}</div>
+                        <div className="text-xs text-muted-foreground truncate">{service.description}</div>
+                        <div className="text-xs text-muted-foreground">${service.rate}</div>
+                      </div>
                     <div className="flex items-center gap-1">
                       <Button
                         variant="ghost"
@@ -406,6 +419,15 @@ export const LineItemsStep = ({ data, taxRate, onChange, onTaxRateChange }: Line
           {editingService && (
             <div className="space-y-4">
               <div>
+                <Label>Service Name</Label>
+                <Input
+                  value={editingService.name}
+                  onChange={(e) => setEditingService({ ...editingService, name: e.target.value })}
+                  placeholder="Service name"
+                  className="mt-1"
+                />
+              </div>
+              <div>
                 <Label>Description</Label>
                 <Input
                   value={editingService.description}
@@ -450,6 +472,15 @@ export const LineItemsStep = ({ data, taxRate, onChange, onTaxRateChange }: Line
           </DialogHeader>
           <div className="space-y-4">
             <div>
+              <Label>Service Name</Label>
+              <Input
+                value={newServiceForm.name}
+                onChange={(e) => setNewServiceForm({ ...newServiceForm, name: e.target.value })}
+                placeholder="Service name"
+                className="mt-1"
+              />
+            </div>
+            <div>
               <Label>Description</Label>
               <Input
                 value={newServiceForm.description}
@@ -475,7 +506,7 @@ export const LineItemsStep = ({ data, taxRate, onChange, onTaxRateChange }: Line
             <Button variant="outline" onClick={() => setIsAddingNew(false)}>
               Cancel
             </Button>
-            <Button onClick={handleAddNewService} disabled={!newServiceForm.description || newServiceForm.rate <= 0}>
+            <Button onClick={handleAddNewService} disabled={!newServiceForm.name || !newServiceForm.description || newServiceForm.rate <= 0}>
               Add Service
             </Button>
           </DialogFooter>

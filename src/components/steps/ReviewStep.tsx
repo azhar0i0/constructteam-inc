@@ -154,7 +154,7 @@ export const ReviewStep = ({ data, onUpdateTerms }: ReviewStepProps) => {
                     <table className="w-full">
                       <thead>
                         <tr className="border-b border-muted">
-                          <th className="text-left py-3 px-4 text-foreground font-semibold">Description</th>
+                          <th className="text-left py-3 px-4 text-foreground font-semibold">Service</th>
                           <th className="text-center py-3 px-4 text-foreground font-semibold w-20">Qty</th>
                           <th className="text-right py-3 px-4 text-foreground font-semibold w-28">Rate</th>
                           <th className="text-right py-3 px-4 text-foreground font-semibold w-32">Amount</th>
@@ -163,7 +163,12 @@ export const ReviewStep = ({ data, onUpdateTerms }: ReviewStepProps) => {
                       <tbody>
                         {section.lineItems.map((item, index) => (
                           <tr key={item.id} className="border-b border-muted/50 hover:bg-secondary/20 transition-colors">
-                            <td className="py-3 px-4 text-foreground font-medium">{item.description}</td>
+                            <td className="py-3 px-4">
+                              <div className="space-y-1">
+                                <div className="text-foreground font-semibold">{item.name}</div>
+                                <div className="text-muted-foreground text-sm">{item.description}</div>
+                              </div>
+                            </td>
                             <td className="py-3 px-4 text-center text-muted-foreground">{item.quantity}</td>
                             <td className="py-3 px-4 text-right text-muted-foreground">${item.rate.toFixed(2)}</td>
                             <td className="py-3 px-4 text-right font-semibold text-foreground">${item.amount.toFixed(2)}</td>
