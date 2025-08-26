@@ -36,23 +36,23 @@ export const ReviewStep = ({ data, onUpdateTerms }: ReviewStepProps) => {
   };
 
   return (
-    <div className="space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-      <div className="text-center space-y-4 sm:space-y-6 animate-in fade-in duration-500 delay-150 px-4">
-        <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-primary via-primary/90 to-accent rounded-full flex items-center justify-center mx-auto shadow-2xl animate-in zoom-in duration-500 delay-300 hover-scale">
-          <CheckCircle className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
+    <div className="space-y-4 sm:space-y-6 lg:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 px-2 sm:px-4">
+      <div className="text-center space-y-3 sm:space-y-4 lg:space-y-6 animate-in fade-in duration-500 delay-150 px-2 sm:px-4">
+        <div className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 xl:w-24 xl:h-24 bg-gradient-to-br from-primary via-primary/90 to-accent rounded-full flex items-center justify-center mx-auto shadow-2xl animate-in zoom-in duration-500 delay-300 hover-scale">
+          <CheckCircle className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 xl:w-12 xl:h-12 text-white" />
         </div>
         <div>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-2 sm:mb-3 animate-in slide-in-from-bottom-2 duration-500 delay-200">
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-2 sm:mb-3 animate-in slide-in-from-bottom-2 duration-500 delay-200">
             Estimate Complete!
           </h2>
-          <p className="text-muted-foreground text-sm sm:text-lg max-w-2xl mx-auto animate-in slide-in-from-bottom-2 duration-500 delay-250">
+          <p className="text-muted-foreground text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl max-w-3xl mx-auto animate-in slide-in-from-bottom-2 duration-500 delay-250 px-4">
             Review your estimate below and download or send it to your client
           </p>
         </div>
         
-        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center max-w-md sm:max-w-none mx-auto animate-in slide-in-from-bottom-2 duration-500 delay-400">
-          <Button onClick={handleDownload} size="lg" className="shadow-xl transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] w-full sm:w-auto">
-            <Download className="w-4 h-4 mr-2" />
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 lg:gap-6 justify-center max-w-xs sm:max-w-md lg:max-w-2xl mx-auto animate-in slide-in-from-bottom-2 duration-500 delay-400">
+          <Button onClick={handleDownload} size="lg" className="shadow-xl transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] w-full sm:w-auto h-10 sm:h-12 lg:h-14 text-sm sm:text-base lg:text-lg">
+            <Download className="w-4 h-4 lg:w-5 lg:h-5 mr-2" />
             <span className="hidden sm:inline">Download PDF</span>
             <span className="sm:hidden">Download</span>
           </Button>
@@ -63,15 +63,15 @@ export const ReviewStep = ({ data, onUpdateTerms }: ReviewStepProps) => {
         </div>
       </div>
 
-      <Card className="shadow-xl border-0 max-w-4xl mx-auto animate-in fade-in duration-700 delay-300" id="estimate-content">
+      <Card className="shadow-xl border-0 max-w-7xl mx-auto animate-in fade-in duration-700 delay-300" id="estimate-content">
         <CardContent className="p-0">
           {/* Header Section */}
-          <div className="bg-gradient-to-r from-primary to-accent text-white p-4 sm:p-6 lg:p-8">
-            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 sm:gap-6">
+          <div className="bg-gradient-to-r from-primary to-accent text-white p-3 sm:p-4 md:p-6 lg:p-8 xl:p-10">
+            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-3 sm:gap-4 lg:gap-6">
               <div className="w-full lg:w-auto">
-                <h1 className="text-2xl sm:text-3xl font-bold mb-2">ESTIMATE</h1>
-                <div className="space-y-1 text-white/90 text-sm sm:text-base">
-                  <p className="text-base sm:text-lg font-semibold">{data.company.name}</p>
+                <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-2 sm:mb-3">ESTIMATE</h1>
+                <div className="space-y-1 text-white/90 text-xs sm:text-sm md:text-base">
+                  <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-semibold">{data.company.name}</p>
                   <div className="flex items-center gap-2 flex-wrap">
                     <Mail className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
                     <span className="break-all">{data.company.email}</span>
@@ -107,20 +107,20 @@ export const ReviewStep = ({ data, onUpdateTerms }: ReviewStepProps) => {
           </div>
 
           {/* Client Information */}
-          <div className="p-8 border-b bg-secondary/20">
-            <h2 className="text-xl font-semibold mb-4 text-foreground">Bill To:</h2>
-            <div className="bg-white p-6 rounded-lg shadow-sm">
-              <p className="font-semibold text-lg">{data.client.companyName}</p>
-              <p className="text-muted-foreground">{data.client.contactName}</p>
-              <p className="text-muted-foreground">
+          <div className="p-3 sm:p-4 md:p-6 lg:p-8 border-b bg-secondary/20">
+            <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold mb-3 sm:mb-4 text-foreground">Bill To:</h2>
+            <div className="bg-white p-3 sm:p-4 md:p-6 rounded-lg shadow-sm">
+              <p className="font-semibold text-base sm:text-lg lg:text-xl">{data.client.companyName}</p>
+              <p className="text-muted-foreground text-sm sm:text-base">{data.client.contactName}</p>
+              <p className="text-muted-foreground text-sm sm:text-base">
                 {data.client.address}, {data.client.city}, {data.client.state} {data.client.zipCode}
               </p>
-              <div className="flex items-center gap-4 mt-2">
-                <span className="text-muted-foreground">{data.client.email}</span>
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 mt-2">
+                <span className="text-muted-foreground text-sm sm:text-base break-all">{data.client.email}</span>
                 {data.client.phone && (
                   <>
-                    <span className="text-muted-foreground">•</span>
-                    <span className="text-muted-foreground">{data.client.phone}</span>
+                    <span className="text-muted-foreground hidden sm:inline">•</span>
+                    <span className="text-muted-foreground text-sm sm:text-base">{data.client.phone}</span>
                   </>
                 )}
               </div>
@@ -128,45 +128,45 @@ export const ReviewStep = ({ data, onUpdateTerms }: ReviewStepProps) => {
           </div>
 
           {/* Project Details */}
-          <div className="p-8 border-b bg-white">
-            <h2 className="text-xl font-semibold mb-4 text-foreground">Project Details:</h2>
-            <div className="bg-accent/10 p-6 rounded-lg border border-accent/20">
-              <h3 className="font-semibold text-lg text-accent mb-3">{data.project.title}</h3>
-              <p className="text-muted-foreground leading-relaxed">{data.project.description}</p>
+          <div className="p-3 sm:p-4 md:p-6 lg:p-8 border-b bg-white">
+            <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold mb-3 sm:mb-4 text-foreground">Project Details:</h2>
+            <div className="bg-accent/10 p-3 sm:p-4 md:p-6 rounded-lg border border-accent/20">
+              <h3 className="font-semibold text-base sm:text-lg lg:text-xl text-accent mb-2 sm:mb-3">{data.project.title}</h3>
+              <p className="text-muted-foreground leading-relaxed text-sm sm:text-base">{data.project.description}</p>
             </div>
           </div>
 
           {/* Services Table */}
-          <div className="p-8 bg-secondary/10">
-            <h2 className="text-xl font-semibold mb-6 text-foreground">Services & Pricing:</h2>
-            <div className="space-y-6">
+          <div className="p-3 sm:p-4 md:p-6 lg:p-8 bg-secondary/10">
+            <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold mb-4 sm:mb-6 text-foreground">Services & Pricing:</h2>
+            <div className="space-y-4 sm:space-y-6">
               {data.sections.map((section, sectionIndex) => (
                 <div key={section.id} className="bg-white rounded-lg shadow-sm overflow-hidden">
-                  <div className="bg-primary/5 px-6 py-3 border-b">
-                    <h3 className="font-semibold text-lg text-primary">{section.title}</h3>
+                  <div className="bg-primary/5 px-3 sm:px-4 md:px-6 py-2 sm:py-3 border-b">
+                    <h3 className="font-semibold text-base sm:text-lg lg:text-xl text-primary">{section.title}</h3>
                   </div>
                   <div className="overflow-x-auto">
-                    <table className="w-full">
+                    <table className="w-full min-w-[600px]">
                       <thead>
                         <tr className="border-b border-muted">
-                          <th className="text-left py-3 px-4 text-foreground font-semibold">Service</th>
-                          <th className="text-center py-3 px-4 text-foreground font-semibold w-20">Qty</th>
-                          <th className="text-right py-3 px-4 text-foreground font-semibold w-28">Rate</th>
-                          <th className="text-right py-3 px-4 text-foreground font-semibold w-32">Amount</th>
+                          <th className="text-left py-2 sm:py-3 px-2 sm:px-4 text-foreground font-semibold text-xs sm:text-sm lg:text-base">Service</th>
+                          <th className="text-center py-2 sm:py-3 px-2 sm:px-4 text-foreground font-semibold w-16 sm:w-20 text-xs sm:text-sm lg:text-base">Qty</th>
+                          <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-foreground font-semibold w-20 sm:w-28 text-xs sm:text-sm lg:text-base">Rate</th>
+                          <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-foreground font-semibold w-24 sm:w-32 text-xs sm:text-sm lg:text-base">Amount</th>
                         </tr>
                       </thead>
                       <tbody>
                         {section.lineItems.map((item, index) => (
                           <tr key={item.id} className="border-b border-muted/50 hover:bg-secondary/20 transition-colors">
-                            <td className="py-3 px-4">
+                            <td className="py-2 sm:py-3 px-2 sm:px-4">
                               <div className="space-y-1">
-                                <div className="text-foreground font-semibold">{item.name}</div>
-                                <div className="text-muted-foreground text-sm">{item.description}</div>
+                                <div className="text-foreground font-semibold text-xs sm:text-sm lg:text-base">{item.name}</div>
+                                <div className="text-muted-foreground text-xs sm:text-sm">{item.description}</div>
                               </div>
                             </td>
-                            <td className="py-3 px-4 text-center text-muted-foreground">{item.quantity}</td>
-                            <td className="py-3 px-4 text-right text-muted-foreground">${item.rate.toFixed(2)}</td>
-                            <td className="py-3 px-4 text-right font-semibold text-foreground">${item.amount.toFixed(2)}</td>
+                            <td className="py-2 sm:py-3 px-2 sm:px-4 text-center text-muted-foreground text-xs sm:text-sm lg:text-base">{item.quantity}</td>
+                            <td className="py-2 sm:py-3 px-2 sm:px-4 text-right text-muted-foreground text-xs sm:text-sm lg:text-base">${item.rate.toFixed(2)}</td>
+                            <td className="py-2 sm:py-3 px-2 sm:px-4 text-right font-semibold text-foreground text-xs sm:text-sm lg:text-base">${item.amount.toFixed(2)}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -177,24 +177,24 @@ export const ReviewStep = ({ data, onUpdateTerms }: ReviewStepProps) => {
             </div>
 
             {/* Totals Section */}
-            <div className="mt-8 flex justify-end">
-              <div className="w-full max-w-sm bg-white p-6 rounded-lg shadow-sm">
-                <div className="space-y-3">
-                  <div className="flex justify-between py-2">
-                    <span className="text-muted-foreground">Subtotal:</span>
-                    <span className="font-semibold">${subtotal.toFixed(2)}</span>
+            <div className="mt-6 sm:mt-8 flex justify-center lg:justify-end">
+              <div className="w-full max-w-xs sm:max-w-sm lg:max-w-md bg-white p-3 sm:p-4 md:p-6 rounded-lg shadow-sm">
+                <div className="space-y-2 sm:space-y-3">
+                  <div className="flex justify-between py-1 sm:py-2">
+                    <span className="text-muted-foreground text-xs sm:text-sm lg:text-base">Subtotal:</span>
+                    <span className="font-semibold text-xs sm:text-sm lg:text-base">${subtotal.toFixed(2)}</span>
                   </div>
-                  <div className="flex justify-between py-2">
-                    <span className="text-muted-foreground">Tax ({(data.taxRate * 100).toFixed(1)}%):</span>
-                    <span className="font-semibold">${tax.toFixed(2)}</span>
+                  <div className="flex justify-between py-1 sm:py-2">
+                    <span className="text-muted-foreground text-xs sm:text-sm lg:text-base">Tax ({(data.taxRate * 100).toFixed(1)}%):</span>
+                    <span className="font-semibold text-xs sm:text-sm lg:text-base">${tax.toFixed(2)}</span>
                   </div>
                   <Separator />
-                  <div className="flex justify-between py-3 text-lg bg-primary/5 px-4 rounded-lg">
-                    <span className="font-bold text-primary flex items-center gap-2">
-                      <DollarSign className="w-5 h-5" />
+                  <div className="flex justify-between py-2 sm:py-3 text-sm sm:text-base lg:text-lg bg-primary/5 px-2 sm:px-4 rounded-lg">
+                    <span className="font-bold text-primary flex items-center gap-1 sm:gap-2">
+                      <DollarSign className="w-4 h-4 sm:w-5 sm:h-5" />
                       Total:
                     </span>
-                    <span className="font-bold text-primary text-xl">${total.toFixed(2)}</span>
+                    <span className="font-bold text-primary text-base sm:text-lg lg:text-xl">${total.toFixed(2)}</span>
                   </div>
                 </div>
               </div>
@@ -202,11 +202,11 @@ export const ReviewStep = ({ data, onUpdateTerms }: ReviewStepProps) => {
           </div>
 
           {/* Payment & Terms Section */}
-          <div className="p-8 border-t bg-secondary/30">
-            <div className="grid lg:grid-cols-2 gap-8">
+          <div className="p-3 sm:p-4 md:p-6 lg:p-8 border-t bg-secondary/30">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
               <div>
-                <h3 className="font-semibold mb-3 text-foreground">Payment Information:</h3>
-                <div className="bg-white p-4 rounded-lg shadow-sm">
+                <h3 className="font-semibold mb-2 sm:mb-3 text-foreground text-sm sm:text-base lg:text-lg">Payment Information:</h3>
+                <div className="bg-white p-3 sm:p-4 rounded-lg shadow-sm">
                   <div className="space-y-2">
                     <div>
                       <span className="text-sm font-medium text-foreground">Accepted Methods:</span>
@@ -243,8 +243,8 @@ export const ReviewStep = ({ data, onUpdateTerms }: ReviewStepProps) => {
               </div>
               
               <div>
-                <h3 className="font-semibold mb-3 text-foreground">Terms & Conditions:</h3>
-                <div className="bg-white p-4 rounded-lg shadow-sm">
+                <h3 className="font-semibold mb-2 sm:mb-3 text-foreground text-sm sm:text-base lg:text-lg">Terms & Conditions:</h3>
+                <div className="bg-white p-3 sm:p-4 rounded-lg shadow-sm">
                   <ul className="text-sm text-muted-foreground space-y-1">
                     <li>• Estimate valid for {data.termsConditions.validityPeriod}</li>
                     <li>• {data.termsConditions.depositRequired} deposit required to begin work</li>

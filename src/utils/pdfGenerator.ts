@@ -2,54 +2,70 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { EstimateData } from '@/types/estimate';
 
-export const generateEstimatePDF = async (elementId: string, estimateData: EstimateData): Promise<void> => {
-  try {
-    const element = document.getElementById(elementId);
-    if (!element) {
-      throw new Error('Element not found');
-    }
+export const generateEstimatePDF = async (elementId: string, data: EstimateData) => {
+  const element = document.getElementById(elementId);
+  if (!element) {
+    throw new Error('Element not found');
+  }
 
-    // Configure html2canvas options for better quality
+  // Temporarily modify styles for better PDF rendering
+  const originalStyle = element.style.cssText;
+  element.style.maxWidth = '1200px';
+  element.style.margin = '0 auto';
+  element.style.fontSize = '14px';
+  element.style.lineHeight = '1.4';
+
+  try {
+    // Get the content dimensions with higher quality for PDF
     const canvas = await html2canvas(element, {
-      scale: 2, // Higher resolution
+      scale: 3, // Higher resolution for crisp PDF
       useCORS: true,
       allowTaint: true,
       backgroundColor: '#ffffff',
-      height: element.scrollHeight,
       width: element.scrollWidth,
+      height: element.scrollHeight,
+      windowWidth: 1200, // Fixed width for consistency
+      windowHeight: element.scrollHeight + 100,
     });
 
-    const imgData = canvas.toDataURL('image/png');
-    
-    // Calculate dimensions for single page PDF
-    const maxWidth = 210; // A4 width in mm
-    const maxHeight = 295; // A4 height in mm
-    
-    // Calculate scaling to fit everything on one page
-    const widthRatio = maxWidth / (canvas.width * 0.264583); // Convert pixels to mm
-    const heightRatio = maxHeight / (canvas.height * 0.264583); // Convert pixels to mm
-    const scale = Math.min(widthRatio, heightRatio); // Use smaller ratio to ensure it fits
-    
-    const imgWidth = (canvas.width * 0.264583) * scale;
-    const imgHeight = (canvas.height * 0.264583) * scale;
-    
-    // Center the image on the page
-    const xOffset = (maxWidth - imgWidth) / 2;
-    const yOffset = (maxHeight - imgHeight) / 2;
+    const imgData = canvas.toDataURL('image/png', 1.0);
+    const pdf = new jsPDF({
+      orientation: 'portrait',
+      unit: 'mm',
+      format: 'a4',
+      compress: true
+    });
 
-    // Create PDF
-    const pdf = new jsPDF('p', 'mm', 'a4');
+    // A4 dimensions in mm
+    const pdfWidth = 210;
+    const pdfHeight = 297;
     
-    // Add single page with all content scaled to fit
-    pdf.addImage(imgData, 'PNG', xOffset, yOffset, imgWidth, imgHeight);
+    // Calculate dimensions to fit content on single page with margins
+    const margin = 10; // 10mm margin
+    const availableWidth = pdfWidth - (margin * 2);
+    const availableHeight = pdfHeight - (margin * 2);
+    
+    const imgAspectRatio = canvas.width / canvas.height;
+    
+    let finalWidth = availableWidth;
+    let finalHeight = finalWidth / imgAspectRatio;
+    
+    // If height exceeds available space, scale by height instead
+    if (finalHeight > availableHeight) {
+      finalHeight = availableHeight;
+      finalWidth = finalHeight * imgAspectRatio;
+    }
+    
+    // Center the content
+    const x = (pdfWidth - finalWidth) / 2;
+    const y = (pdfHeight - finalHeight) / 2;
 
-    // Generate filename
-    const fileName = `Estimate_${estimateData.project.estimateNumber}_${estimateData.client.companyName.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`;
+    pdf.addImage(imgData, 'PNG', x, y, finalWidth, finalHeight, undefined, 'FAST');
     
-    // Download the PDF
+    const fileName = `estimate-${data.project.estimateNumber || 'draft'}.pdf`;
     pdf.save(fileName);
-  } catch (error) {
-    console.error('Error generating PDF:', error);
-    throw error;
+  } finally {
+    // Restore original styles
+    element.style.cssText = originalStyle;
   }
 };

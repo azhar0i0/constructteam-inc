@@ -135,44 +135,44 @@ export const LineItemsStep = ({ data, taxRate, onChange, onTaxRateChange }: Line
   };
 
   return (
-    <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
-      <div className="text-center space-y-2 animate-in fade-in duration-500 delay-150">
-        <div className="w-16 h-16 bg-gradient-to-br from-primary via-primary/90 to-accent rounded-full flex items-center justify-center mx-auto shadow-xl animate-in zoom-in duration-500 delay-300">
-          <ShoppingCart className="w-8 h-8 text-white" />
+    <div className="space-y-4 sm:space-y-6 lg:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 px-2 sm:px-4 lg:px-0">
+      <div className="text-center space-y-2 sm:space-y-4 animate-in fade-in duration-500 delay-150">
+        <div className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 bg-gradient-to-br from-primary via-primary/90 to-accent rounded-full flex items-center justify-center mx-auto shadow-xl animate-in zoom-in duration-500 delay-300">
+          <ShoppingCart className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 text-white" />
         </div>
-        <h2 className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent animate-in slide-in-from-bottom-2 duration-500 delay-200">
+        <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent animate-in slide-in-from-bottom-2 duration-500 delay-200">
           Services & Pricing
         </h2>
-        <p className="text-muted-foreground text-lg animate-in slide-in-from-bottom-2 duration-500 delay-250">
+        <p className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto animate-in slide-in-from-bottom-2 duration-500 delay-250 px-4">
           Add the services you'll be providing
         </p>
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-4 gap-4 lg:gap-6 animate-in fade-in duration-500 delay-400">
-        <div className="xl:col-span-3 space-y-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 animate-in fade-in duration-500 delay-400">
+        <div className="lg:col-span-2 xl:col-span-3 space-y-3 sm:space-y-4">
           {/* Sections */}
           {data.length === 0 ? (
             <Card className="shadow-xl border-0 backdrop-blur-sm transition-all duration-300 hover:shadow-2xl" style={{ background: 'var(--gradient-card)' }}>
-              <CardContent className="py-16 text-center animate-in fade-in duration-500">
-                <FolderPlus className="w-16 h-16 mx-auto mb-4 opacity-50 text-muted-foreground" />
-                <p className="text-lg text-muted-foreground mb-4">No sections added yet</p>
-                <p className="text-sm text-muted-foreground">Click "Add Section" to get started!</p>
+              <CardContent className="py-8 sm:py-12 lg:py-16 text-center animate-in fade-in duration-500">
+                <FolderPlus className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-3 sm:mb-4 opacity-50 text-muted-foreground" />
+                <p className="text-base sm:text-lg lg:text-xl text-muted-foreground mb-2 sm:mb-4">No sections added yet</p>
+                <p className="text-xs sm:text-sm lg:text-base text-muted-foreground px-4">Click "Add Section" to get started!</p>
               </CardContent>
             </Card>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               {data.map((section, sectionIndex) => (
                 <Card key={section.id} className="shadow-xl border-0 backdrop-blur-sm transition-all duration-300 hover:shadow-2xl animate-in slide-in-from-left-3 duration-300" style={{ background: 'var(--gradient-card)', animationDelay: `${sectionIndex * 100}ms` }}>
-                  <CardHeader className="pb-3">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3 flex-1">
-                        <Badge variant="secondary" className="bg-primary/10 text-primary">
+                  <CardHeader className="pb-2 sm:pb-3 px-3 sm:px-6">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-3">
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3 flex-1 w-full sm:w-auto">
+                        <Badge variant="secondary" className="bg-primary/10 text-primary text-xs sm:text-sm whitespace-nowrap">
                           Section {sectionIndex + 1}
                         </Badge>
                         <Input
                           value={section.title}
                           onChange={(e) => updateSectionTitle(section.id, e.target.value)}
-                          className="h-8 font-semibold border-0 bg-transparent focus:bg-white/50 px-2"
+                          className="h-8 sm:h-10 font-semibold border-0 bg-transparent focus:bg-white/50 px-2 text-sm sm:text-base flex-1"
                           placeholder="Section title"
                         />
                       </div>
@@ -180,79 +180,79 @@ export const LineItemsStep = ({ data, taxRate, onChange, onTaxRateChange }: Line
                         variant="ghost"
                         size="sm"
                         onClick={() => removeSection(section.id)}
-                        className="text-destructive hover:text-destructive hover:bg-destructive/10 transition-all duration-200"
+                        className="text-destructive hover:text-destructive hover:bg-destructive/10 transition-all duration-200 self-end sm:self-auto"
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>
                     </div>
                   </CardHeader>
-                  <CardContent className="space-y-4">
+                  <CardContent className="space-y-3 sm:space-y-4 px-3 sm:px-6">
                     {section.lineItems.length === 0 ? (
-                      <div className="text-center py-6 text-muted-foreground bg-white/30 rounded-lg border border-dashed border-primary/20">
-                        <ShoppingCart className="w-8 h-8 mx-auto mb-2 opacity-50" />
-                        <p className="text-sm">No services in this section yet</p>
+                      <div className="text-center py-4 sm:py-6 lg:py-8 text-muted-foreground bg-white/30 rounded-lg border border-dashed border-primary/20">
+                        <ShoppingCart className="w-6 h-6 sm:w-8 sm:h-8 mx-auto mb-2 opacity-50" />
+                        <p className="text-xs sm:text-sm lg:text-base">No services in this section yet</p>
                       </div>
                     ) : (
-                      <div className="space-y-3">
+                      <div className="space-y-3 sm:space-y-4">
                         {section.lineItems.map((item, itemIndex) => (
-                          <div key={item.id} className="bg-white/60 p-4 rounded-lg border border-primary/10 transition-all duration-300 hover:bg-white/80 hover:shadow-md animate-in slide-in-from-left-2 duration-300" style={{ animationDelay: `${itemIndex * 50}ms` }}>
-                            <div className="flex items-center justify-between mb-3">
-                              <Badge variant="outline" className="bg-background/50">
+                          <div key={item.id} className="bg-white/60 p-3 sm:p-4 rounded-lg border border-primary/10 transition-all duration-300 hover:bg-white/80 hover:shadow-md animate-in slide-in-from-left-2 duration-300" style={{ animationDelay: `${itemIndex * 50}ms` }}>
+                            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-3 gap-2">
+                              <Badge variant="outline" className="bg-background/50 text-xs sm:text-sm">
                                 Item #{itemIndex + 1}
                               </Badge>
                               <Button
                                 variant="ghost"
                                 size="sm"
                                 onClick={() => removeLineItem(section.id, item.id)}
-                                className="text-destructive hover:text-destructive hover:bg-destructive/10 transition-all duration-200 hover:scale-105"
+                                className="text-destructive hover:text-destructive hover:bg-destructive/10 transition-all duration-200 hover:scale-105 self-end sm:self-auto"
                               >
                                 <Trash2 className="w-4 h-4" />
                               </Button>
                             </div>
                             
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3">
-                              <div className="sm:col-span-2 lg:col-span-3">
-                                <Label className="text-sm font-medium">Service Name</Label>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-12 gap-3">
+                              <div className="sm:col-span-2 lg:col-span-2 xl:col-span-3">
+                                <Label className="text-xs sm:text-sm font-medium">Service Name</Label>
                                 <Input
                                   placeholder="Service name"
                                   value={item.name}
                                   onChange={(e) => updateLineItem(section.id, item.id, 'name', e.target.value)}
-                                  className="mt-1 h-10 border-0 bg-white shadow-sm"
+                                  className="mt-1 h-9 sm:h-10 border-0 bg-white shadow-sm text-sm"
                                 />
                               </div>
-                              <div className="sm:col-span-2 lg:col-span-3">
-                                <Label className="text-sm font-medium">Description</Label>
+                              <div className="sm:col-span-2 lg:col-span-2 xl:col-span-3">
+                                <Label className="text-xs sm:text-sm font-medium">Description</Label>
                                 <Input
                                   placeholder="Service description"
                                   value={item.description}
                                   onChange={(e) => updateLineItem(section.id, item.id, 'description', e.target.value)}
-                                  className="mt-1 h-10 border-0 bg-white shadow-sm"
+                                  className="mt-1 h-9 sm:h-10 border-0 bg-white shadow-sm text-sm"
                                 />
                               </div>
-                              <div className="lg:col-span-2">
-                                <Label className="text-sm font-medium">Qty</Label>
+                              <div className="lg:col-span-1 xl:col-span-2">
+                                <Label className="text-xs sm:text-sm font-medium">Qty</Label>
                                 <Input
                                   type="number"
                                   min="1"
                                   value={item.quantity}
                                   onChange={(e) => updateLineItem(section.id, item.id, 'quantity', parseInt(e.target.value) || 1)}
-                                  className="mt-1 h-10 border-0 bg-white shadow-sm"
+                                  className="mt-1 h-9 sm:h-10 border-0 bg-white shadow-sm text-sm"
                                 />
                               </div>
-                              <div className="lg:col-span-2">
-                                <Label className="text-sm font-medium">Rate</Label>
+                              <div className="lg:col-span-1 xl:col-span-2">
+                                <Label className="text-xs sm:text-sm font-medium">Rate</Label>
                                 <Input
                                   type="number"
                                   min="0"
                                   step="0.01"
                                   value={item.rate}
                                   onChange={(e) => updateLineItem(section.id, item.id, 'rate', parseFloat(e.target.value) || 0)}
-                                  className="mt-1 h-10 border-0 bg-white shadow-sm"
+                                  className="mt-1 h-9 sm:h-10 border-0 bg-white shadow-sm text-sm"
                                 />
                               </div>
-                              <div className="lg:col-span-2">
-                                <Label className="text-sm font-medium">Amount</Label>
-                                <div className="mt-1 h-10 px-3 bg-muted rounded-md flex items-center font-semibold text-primary">
+                              <div className="xl:col-span-2">
+                                <Label className="text-xs sm:text-sm font-medium">Amount</Label>
+                                <div className="mt-1 h-9 sm:h-10 px-3 bg-muted rounded-md flex items-center font-semibold text-primary text-sm sm:text-base">
                                   ${item.amount.toFixed(2)}
                                 </div>
                               </div>
@@ -265,10 +265,11 @@ export const LineItemsStep = ({ data, taxRate, onChange, onTaxRateChange }: Line
                     <Button 
                       onClick={() => addLineItemToSection(section.id)} 
                       variant="outline" 
-                      className="w-full transition-all duration-300 hover:shadow-lg hover:scale-[1.02]"
+                      className="w-full transition-all duration-300 hover:shadow-lg hover:scale-[1.02] text-sm sm:text-base h-9 sm:h-10"
                     >
                       <Plus className="w-4 h-4 mr-2" />
-                      Add Service to Section
+                      <span className="hidden sm:inline">Add Service to Section</span>
+                      <span className="sm:hidden">Add Service</span>
                     </Button>
                   </CardContent>
                 </Card>
@@ -276,19 +277,22 @@ export const LineItemsStep = ({ data, taxRate, onChange, onTaxRateChange }: Line
             </div>
           )}
           
-          <Button onClick={addSection} className="w-full bg-gradient-to-r from-primary to-accent text-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] animate-pulse">
-            <FolderPlus className="w-4 h-4 mr-2" />
-            Add Section
+          <Button onClick={addSection} className="w-full bg-gradient-to-r from-primary to-accent text-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] animate-pulse h-10 sm:h-12 text-sm sm:text-base">
+            <FolderPlus className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+            <span className="hidden sm:inline">Add Section</span>
+            <span className="sm:hidden">Add</span>
           </Button>
         </div>
 
-        <div className="xl:col-span-1 space-y-4">
+        <div className="lg:col-span-1 xl:col-span-1 space-y-3 sm:space-y-4">
           <Card className="shadow-xl border-0 backdrop-blur-sm transition-all duration-300 hover:shadow-2xl" style={{ background: 'var(--gradient-card)' }}>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-base">
-                <Plus className="w-4 h-4 text-primary" />
-                Quick Add Services
-                <div className="ml-auto flex gap-1">
+            <CardHeader className="pb-2 sm:pb-4">
+              <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center gap-2 text-sm sm:text-base">
+                <div className="flex items-center gap-1 sm:gap-2">
+                  <Plus className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
+                  <span className="text-xs sm:text-sm lg:text-base">Quick Add Services</span>
+                </div>
+                <div className="flex gap-1 sm:ml-auto">
                   <Button
                     variant="ghost"
                     size="sm"
@@ -308,11 +312,11 @@ export const LineItemsStep = ({ data, taxRate, onChange, onTaxRateChange }: Line
                   </Button>
                 </div>
               </CardTitle>
-              <CardDescription className="text-xs">
+              <CardDescription className="text-xs sm:text-sm">
                 Manage and add common services
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-2 max-h-64 overflow-y-auto">
+            <CardContent className="space-y-2 max-h-48 sm:max-h-64 lg:max-h-80 overflow-y-auto">
               {services.map((service, index) => (
                 <div
                   key={service.id}
@@ -365,15 +369,15 @@ export const LineItemsStep = ({ data, taxRate, onChange, onTaxRateChange }: Line
           </Card>
 
           <Card className="shadow-xl border-0 backdrop-blur-sm transition-all duration-300 hover:shadow-2xl" style={{ background: 'var(--gradient-card)' }}>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-base">
-                <Calculator className="w-4 h-4 text-primary" />
-                Totals
+            <CardHeader className="pb-2 sm:pb-4">
+              <CardTitle className="flex items-center gap-2 text-sm sm:text-base">
+                <Calculator className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
+                <span className="text-xs sm:text-sm lg:text-base">Totals</span>
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-3 sm:space-y-4">
               <div className="space-y-2">
-                <Label className="text-sm font-medium">Tax Rate (%)</Label>
+                <Label className="text-xs sm:text-sm font-medium">Tax Rate (%)</Label>
                 <Input
                   type="number"
                   min="0"
