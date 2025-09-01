@@ -193,72 +193,25 @@ export const LineItemsStep = ({ data, taxRate, onChange, onTaxRateChange }: Line
                         <p className="text-xs sm:text-sm lg:text-base">No services in this section yet</p>
                       </div>
                     ) : (
-                      <div className="space-y-3 sm:space-y-4">
-                        {section.lineItems.map((item, itemIndex) => (
-                          <div key={item.id} className="bg-white/60 p-3 sm:p-4 rounded-lg border border-primary/10 transition-all duration-300 hover:bg-white/80 hover:shadow-md animate-in slide-in-from-left-2 duration-300" style={{ animationDelay: `${itemIndex * 50}ms` }}>
-                            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-3 gap-2">
-                              <Badge variant="outline" className="bg-background/50 text-xs sm:text-sm">
-                                Item #{itemIndex + 1}
-                              </Badge>
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={() => removeLineItem(section.id, item.id)}
-                                className="text-destructive hover:text-destructive hover:bg-destructive/10 transition-all duration-200 hover:scale-105 self-end sm:self-auto"
-                              >
-                                <Trash2 className="w-4 h-4" />
-                              </Button>
+                      <div className="bg-white/60 p-4 sm:p-6 rounded-lg border border-primary/10 transition-all duration-300 hover:bg-white/80 hover:shadow-md">
+                        <div className="flex items-center justify-between">
+                          <div className="space-y-1">
+                            <div className="text-sm sm:text-base text-muted-foreground">
+                              {section.lineItems.length} service{section.lineItems.length !== 1 ? 's' : ''} included
                             </div>
-                            
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-12 gap-3">
-                              <div className="sm:col-span-2 lg:col-span-2 xl:col-span-3">
-                                <Label className="text-xs sm:text-sm font-medium">Service Name</Label>
-                                <Input
-                                  placeholder="Service name"
-                                  value={item.name}
-                                  onChange={(e) => updateLineItem(section.id, item.id, 'name', e.target.value)}
-                                  className="mt-1 h-9 sm:h-10 border-0 bg-white shadow-sm text-sm"
-                                />
-                              </div>
-                              <div className="sm:col-span-2 lg:col-span-2 xl:col-span-3">
-                                <Label className="text-xs sm:text-sm font-medium">Description</Label>
-                                <Input
-                                  placeholder="Service description"
-                                  value={item.description}
-                                  onChange={(e) => updateLineItem(section.id, item.id, 'description', e.target.value)}
-                                  className="mt-1 h-9 sm:h-10 border-0 bg-white shadow-sm text-sm"
-                                />
-                              </div>
-                              <div className="lg:col-span-1 xl:col-span-2">
-                                <Label className="text-xs sm:text-sm font-medium">Qty</Label>
-                                <Input
-                                  type="number"
-                                  min="1"
-                                  value={item.quantity}
-                                  onChange={(e) => updateLineItem(section.id, item.id, 'quantity', parseInt(e.target.value) || 1)}
-                                  className="mt-1 h-9 sm:h-10 border-0 bg-white shadow-sm text-sm"
-                                />
-                              </div>
-                              <div className="lg:col-span-1 xl:col-span-2">
-                                <Label className="text-xs sm:text-sm font-medium">Rate</Label>
-                                <Input
-                                  type="number"
-                                  min="0"
-                                  step="0.01"
-                                  value={item.rate}
-                                  onChange={(e) => updateLineItem(section.id, item.id, 'rate', parseFloat(e.target.value) || 0)}
-                                  className="mt-1 h-9 sm:h-10 border-0 bg-white shadow-sm text-sm"
-                                />
-                              </div>
-                              <div className="xl:col-span-2">
-                                <Label className="text-xs sm:text-sm font-medium">Amount</Label>
-                                <div className="mt-1 h-9 sm:h-10 px-3 bg-muted rounded-md flex items-center font-semibold text-primary text-sm sm:text-base">
-                                  ${item.amount.toFixed(2)}
-                                </div>
-                              </div>
+                            <div className="text-xs sm:text-sm text-muted-foreground">
+                              {section.lineItems.map(item => item.name).filter(name => name.trim()).join(', ') || 'Services configured'}
                             </div>
                           </div>
-                        ))}
+                          <div className="text-right">
+                            <div className="text-lg sm:text-xl lg:text-2xl font-bold text-primary">
+                              ${section.lineItems.reduce((sum, item) => sum + item.amount, 0).toFixed(2)}
+                            </div>
+                            <div className="text-xs sm:text-sm text-muted-foreground">
+                              Section Total
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     )}
                     
