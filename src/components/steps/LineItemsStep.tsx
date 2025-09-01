@@ -200,7 +200,7 @@ export const LineItemsStep = ({ data, taxRate, onChange, onTaxRateChange }: Line
                               {section.lineItems.length} service{section.lineItems.length !== 1 ? 's' : ''} included
                             </div>
                             <div className="text-xs sm:text-sm text-muted-foreground">
-                              {section.lineItems.map(item => item.name).filter(name => name.trim()).join(', ') || 'Services configured'}
+                              {section.lineItems.map(item => item.name).filter(name => name && name.trim()).join(', ') || 'Services configured'}
                             </div>
                           </div>
                           <div className="text-right">
