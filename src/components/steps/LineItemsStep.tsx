@@ -193,22 +193,74 @@ export const LineItemsStep = ({ data, taxRate, onChange, onTaxRateChange }: Line
                         <p className="text-xs sm:text-sm lg:text-base">No services in this section yet</p>
                       </div>
                     ) : (
-                      <div className="bg-white/60 p-4 sm:p-6 rounded-lg border border-primary/10 transition-all duration-300 hover:bg-white/80 hover:shadow-md">
-                        <div className="flex items-center justify-between">
-                          <div className="space-y-1">
-                            <div className="text-sm sm:text-base text-muted-foreground">
-                              {section.lineItems.length} service{section.lineItems.length !== 1 ? 's' : ''} included
-                            </div>
-                            <div className="text-xs sm:text-sm text-muted-foreground">
-                              {section.lineItems.map(item => item.name).filter(name => name && name.trim()).join(', ') || 'Services configured'}
+                      <div className="space-y-3">
+                        {section.lineItems.map((item, itemIndex) => (
+                          <div key={item.id} className="bg-white/60 p-3 sm:p-4 rounded-lg border border-primary/10 transition-all duration-300 hover:bg-white/80 hover:shadow-md animate-in slide-in-from-left-2" style={{ animationDelay: `${itemIndex * 100}ms` }}>
+                            <div className="flex flex-col sm:flex-row justify-between gap-3">
+                              <div className="flex-1 space-y-2">
+                                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+                                  <Input
+                                    value={item.name}
+                                    onChange={(e) => updateLineItem(section.id, item.id, 'name', e.target.value)}
+                                    placeholder="Service name"
+                                    className="h-8 font-medium border-0 bg-transparent focus:bg-white/50 px-2 text-sm sm:text-base"
+                                  />
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => removeLineItem(section.id, item.id)}
+                                    className="text-destructive hover:text-destructive hover:bg-destructive/10 transition-all duration-200 h-6 w-6 p-0 self-end sm:self-auto"
+                                  >
+                                    <Trash2 className="w-3 h-3" />
+                                  </Button>
+                                </div>
+                                <Input
+                                  value={item.description}
+                                  onChange={(e) => updateLineItem(section.id, item.id, 'description', e.target.value)}
+                                  placeholder="Service description"
+                                  className="h-7 border-0 bg-transparent focus:bg-white/50 px-2 text-xs sm:text-sm text-muted-foreground"
+                                />
+                                <div className="grid grid-cols-3 gap-2">
+                                  <div className="space-y-1">
+                                    <Label className="text-xs">Qty</Label>
+                                    <Input
+                                      type="number"
+                                      min="0"
+                                      step="0.01"
+                                      value={item.quantity}
+                                      onChange={(e) => updateLineItem(section.id, item.id, 'quantity', parseFloat(e.target.value) || 0)}
+                                      className="h-7 text-center border-0 bg-white shadow-sm transition-all duration-200 focus:shadow-md text-xs"
+                                    />
+                                  </div>
+                                  <div className="space-y-1">
+                                    <Label className="text-xs">Rate</Label>
+                                    <Input
+                                      type="number"
+                                      min="0"
+                                      step="0.01"
+                                      value={item.rate}
+                                      onChange={(e) => updateLineItem(section.id, item.id, 'rate', parseFloat(e.target.value) || 0)}
+                                      className="h-7 text-center border-0 bg-white shadow-sm transition-all duration-200 focus:shadow-md text-xs"
+                                    />
+                                  </div>
+                                  <div className="space-y-1">
+                                    <Label className="text-xs">Amount</Label>
+                                    <div className="h-7 bg-muted/50 rounded border flex items-center justify-center text-xs font-medium">
+                                      ${item.amount.toFixed(2)}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
                             </div>
                           </div>
-                          <div className="text-right">
-                            <div className="text-lg sm:text-xl lg:text-2xl font-bold text-primary">
-                              ${section.lineItems.reduce((sum, item) => sum + item.amount, 0).toFixed(2)}
+                        ))}
+                        <div className="bg-primary/5 p-3 rounded-lg border border-primary/20">
+                          <div className="flex items-center justify-between">
+                            <div className="text-sm text-muted-foreground">
+                              {section.lineItems.length} service{section.lineItems.length !== 1 ? 's' : ''} • Section Total
                             </div>
-                            <div className="text-xs sm:text-sm text-muted-foreground">
-                              Section Total
+                            <div className="text-lg font-bold text-primary">
+                              ${section.lineItems.reduce((sum, item) => sum + item.amount, 0).toFixed(2)}
                             </div>
                           </div>
                         </div>
