@@ -237,15 +237,6 @@ export const LineItemsStep = ({ data, taxRate, onChange, onTaxRateChange }: Line
                       </div>
                     )}
                     
-                    <Button 
-                      onClick={() => addLineItemToSection(section.id)} 
-                      variant="outline" 
-                      className="w-full transition-all duration-300 hover:shadow-lg hover:scale-[1.02] text-sm sm:text-base h-9 sm:h-10"
-                    >
-                      <Plus className="w-4 h-4 mr-2" />
-                      <span className="hidden sm:inline">Add Service to Section</span>
-                      <span className="sm:hidden">Add Service</span>
-                    </Button>
                   </CardContent>
                 </Card>
               ))}
