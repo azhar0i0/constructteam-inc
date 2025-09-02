@@ -225,12 +225,9 @@ export const LineItemsStep = ({ data, taxRate, onChange, onTaxRateChange }: Line
                           </div>
                         ))}
                         <div className="bg-primary/5 p-3 rounded-lg border border-primary/20">
-                          <div className="flex items-center justify-between">
+                          <div className="flex items-center justify-center">
                             <div className="text-sm text-muted-foreground">
-                              {section.lineItems.length} service{section.lineItems.length !== 1 ? 's' : ''} • Section Total
-                            </div>
-                            <div className="text-lg font-bold text-primary">
-                              ${section.lineItems.reduce((sum, item) => sum + item.amount, 0).toFixed(2)}
+                              {section.lineItems.length} service{section.lineItems.length !== 1 ? 's' : ''} in this section
                             </div>
                           </div>
                         </div>
