@@ -220,36 +220,6 @@ export const LineItemsStep = ({ data, taxRate, onChange, onTaxRateChange }: Line
                                   placeholder="Service description"
                                   className="h-7 border-0 bg-transparent focus:bg-white/50 px-2 text-xs sm:text-sm text-muted-foreground"
                                 />
-                                <div className="grid grid-cols-3 gap-2">
-                                  <div className="space-y-1">
-                                    <Label className="text-xs">Qty</Label>
-                                    <Input
-                                      type="number"
-                                      min="0"
-                                      step="0.01"
-                                      value={item.quantity}
-                                      onChange={(e) => updateLineItem(section.id, item.id, 'quantity', parseFloat(e.target.value) || 0)}
-                                      className="h-7 text-center border-0 bg-white shadow-sm transition-all duration-200 focus:shadow-md text-xs"
-                                    />
-                                  </div>
-                                  <div className="space-y-1">
-                                    <Label className="text-xs">Rate</Label>
-                                    <Input
-                                      type="number"
-                                      min="0"
-                                      step="0.01"
-                                      value={item.rate}
-                                      onChange={(e) => updateLineItem(section.id, item.id, 'rate', parseFloat(e.target.value) || 0)}
-                                      className="h-7 text-center border-0 bg-white shadow-sm transition-all duration-200 focus:shadow-md text-xs"
-                                    />
-                                  </div>
-                                  <div className="space-y-1">
-                                    <Label className="text-xs">Amount</Label>
-                                    <div className="h-7 bg-muted/50 rounded border flex items-center justify-center text-xs font-medium">
-                                      ${item.amount.toFixed(2)}
-                                    </div>
-                                  </div>
-                                </div>
                               </div>
                             </div>
                           </div>
