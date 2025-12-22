@@ -18,13 +18,9 @@ export const PaymentInfoSettings = ({ paymentData, onSave }: PaymentInfoSettings
   const [open, setOpen] = useState(false);
 
   const paymentMethods = [
-    'Bank Transfer',
-    'Check',
-    'Cash',
-    'PayPal',
-    'Venmo',
-    'Credit Card',
-    'Wire Transfer'
+    'E-Transfer',
+    'Wire Transfer',
+    'Cash'
   ];
 
   const handleSave = () => {

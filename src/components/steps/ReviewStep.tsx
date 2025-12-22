@@ -147,14 +147,6 @@ export const ReviewStep = ({ data, onUpdateTerms }: ReviewStepProps) => {
                   </div>
                   <div className="overflow-x-auto">
                     <table className="w-full min-w-[600px]">
-                      <thead>
-                        <tr className="border-b border-muted">
-                          <th className="text-left py-2 sm:py-3 px-2 sm:px-4 text-foreground font-semibold text-xs sm:text-sm lg:text-base">Service</th>
-                          <th className="text-center py-2 sm:py-3 px-2 sm:px-4 text-foreground font-semibold w-16 sm:w-20 text-xs sm:text-sm lg:text-base">Qty</th>
-                          <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-foreground font-semibold w-20 sm:w-28 text-xs sm:text-sm lg:text-base">Rate</th>
-                          <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-foreground font-semibold w-24 sm:w-32 text-xs sm:text-sm lg:text-base">Amount</th>
-                        </tr>
-                      </thead>
                       <tbody>
                         {section.lineItems.map((item, index) => (
                           <tr key={item.id} className="border-b border-muted/50 hover:bg-secondary/20 transition-colors">
@@ -245,28 +237,13 @@ export const ReviewStep = ({ data, onUpdateTerms }: ReviewStepProps) => {
               <div>
                 <h3 className="font-semibold mb-2 sm:mb-3 text-foreground text-sm sm:text-base lg:text-lg">Terms & Conditions:</h3>
                 <div className="bg-white p-3 sm:p-4 rounded-lg shadow-sm">
-                  <ul className="text-sm text-muted-foreground space-y-1">
-                    <li>• Estimate valid for {data.termsConditions.validityPeriod}</li>
-                    <li>• {data.termsConditions.depositRequired} deposit required to begin work</li>
-                    <li>• {data.termsConditions.paymentTerms}</li>
-                    <li>• {data.termsConditions.additionalCharges}</li>
-                  </ul>
-                  
-                  <div className="mt-3">
-                    <span className="text-sm font-medium text-foreground">Project Timeline:</span>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      {data.termsConditions.timeline}
-                    </p>
+                  <div className="text-sm text-muted-foreground whitespace-pre-line">
+                    {data.termsConditions.notes}
                   </div>
                 </div>
               </div>
             </div>
             
-            <div className="mt-6 p-4 bg-accent/10 rounded-lg border border-accent/20">
-              <p className="text-sm text-muted-foreground">
-                <strong>Note:</strong> {data.termsConditions.notes}
-              </p>
-            </div>
           </div>
         </CardContent>
       </Card>
