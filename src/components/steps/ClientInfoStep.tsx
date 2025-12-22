@@ -42,7 +42,7 @@ export const ClientInfoStep = ({ data, onChange }: ClientInfoStepProps) => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2 animate-in slide-in-from-left-2 duration-300 delay-500">
               <Label htmlFor="client-company" className="text-sm font-medium">
-                Organization *
+                Organization/Client *
               </Label>
               <Input
                 id="client-company"
