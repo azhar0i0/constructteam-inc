@@ -1,19 +1,24 @@
 # Welcome to your Azhar project
 
-## Creator info
+**MyPortfolio**: [AzharAli](https://azharali.site)
 
-**URL**: https://Azharali.site
+**Preview Image of our Project:**
+
+![Descriptive alt text](preview.png)
+
+**Requirements for setup of this Project:**
 
 The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+
 
 Follow these steps:
 
 ```sh
 # Step 1: Clone the repository using the project's Git URL.
-git clone [<GIT_URL>](https://github.com/azhar0i0/constructteam-inc.git)
+git clone https://github.com/azhar0i0/constructteam-inc.git
 
 # Step 2: Navigate to the project directory.
-cd [<PROJECT_NAME>](constructteam-inc)
+cd constructteam-inc
 
 # Step 3: Install the necessary dependencies.
 npm i
